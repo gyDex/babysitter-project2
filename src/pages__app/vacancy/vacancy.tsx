@@ -38,6 +38,8 @@ const VacancyPage:React.FC<Props> = ({empty = false}) => {
                         <div className={styles['vacancy-profile__list']}>
                             <CardBabysitter isMoreBtn />
                             <CardBabysitter isMoreBtn />
+                            <CardBabysitter isMoreBtn />
+                            <CardBabysitter isMoreBtn />
                         </div>
                     }
                 </div>
