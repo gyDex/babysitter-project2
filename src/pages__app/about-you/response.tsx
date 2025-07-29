@@ -191,7 +191,7 @@ const ResponsePage = () => {
 
                 <div className="z-[10] relative flex max-[1024px]:!flex-col gap-[12px] w-full items-center">
                   <button
-                      onClick={() => router.push('')}
+                      onClick={() => mobileState.setOpen(false,'')}
                     type="button"
                     className="shrink-0 max-[1024px]:w-full text-[onest] text-[#431DED] font-medium text-[14px] leading-[18px] bg-[#E8E5F9] pt-[6px] pb-[8px] px-[12px] rounded-[8px]"
                   >
@@ -284,7 +284,8 @@ const ResponsePage = () => {
 
                       <span className='mt-[23px] text-[#7C8092] text-[14px] leading-[18px]  block font-normal max-w-[437px]'>Обучающий видеоурок поможет вам быстрее находить общий язык с детьми и их родителями. Это обязательный этап перед началом работы.</span>
 
-                      <button className={'font-[onest] w-fit mt-auto text-[14px] leading-[18px] font-medium py-[6px] px-[12px] text-[#431DED] bg-[#E8E5F9] rounded-[8px]'}>
+                      
+                      <button onClick={() => mobileState.setOpen(false,'')}  className={'font-[onest] w-fit mt-auto text-[14px] leading-[18px] font-medium py-[6px] px-[12px] text-[#431DED] bg-[#E8E5F9] rounded-[8px]'}>
                           Урок просмотрен
                       </button>
                   </div>
@@ -297,6 +298,52 @@ const ResponsePage = () => {
 
               </div>
           </Popup>
+
+                  <Popup styleMain={{
+              padding: '24px',
+              width: '669px',
+            }} top={false} title={false} onClose={() => mobileState.setOpen(false, '')}  isOpen={mobileState.isOpen && mobileState.type === 'education'} isNotBtn cross={true} setOpen={mobileState.setOpen}>
+              <div className={styles['response__content-inner']}>
+                <div className='flex flex-col gap-[32px] max-[768px]:gap-[16px]'>
+                  <div className='flex gap-[16px] flex-col'>
+                      <span className='font-[onest] font-semibold max-[768px]:text-[20px]'>
+                        2012–2016
+                      </span>
+
+                      <span className='font-[onest] font-normal'>
+                        Московский педагогический колледж, специальность «Воспитатель детей дошкольного возраста»
+                      </span>
+                  </div>
+                  <div className='flex gap-[16px] flex-col'>
+                      <span className='font-[onest] font-semibold max-[768px]:text-[20px]'>
+                        2012–2016
+                      </span>
+
+                      <span className='font-[onest] font-normal'>
+                        Московский педагогический колледж, специальность «Воспитатель детей дошкольного возраста»
+                      </span>
+                  </div>
+                  <div className='flex gap-[16px] flex-col'>
+                      <span className='font-[onest] font-semibold max-[768px]:text-[20px]'>
+                        2012–2016
+                      </span>
+
+                      <span className='font-[onest] font-normal'>
+                        Московский педагогический колледж, специальность «Воспитатель детей дошкольного возраста»
+                      </span>
+                  </div>
+                  <div className='flex gap-[16px] flex-col'>
+                      <span className='font-[onest] font-semibold max-[768px]:text-[20px]'>
+                        2012–2016
+                      </span>
+
+                      <span className='font-[onest] font-normal'>
+                        Московский педагогический колледж, специальность «Воспитатель детей дошкольного возраста»
+                      </span>
+                  </div>
+                </div>
+              </div>
+        </Popup>
 
                   <Popup styleMain={{
           padding: '24px',

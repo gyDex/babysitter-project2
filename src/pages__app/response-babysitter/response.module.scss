@@ -693,11 +693,13 @@
             grid-column: 2;
             grid-row: 2;
             max-height: fit-content;
+            max-height: 88px;
         }
 
         &__rating-item {
             grid-column:  1;
             max-height: fit-content;
+            max-height: 88px;
         }
 
         &__video-item {

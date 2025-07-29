@@ -72,7 +72,7 @@ const ProfileEditTenStage = () => {
 
       <div className="flex gap-[24px] w-full max-[768px]:flex-col">
         <div className="w-full">
-          <span onClick={() => mobileState.setOpen(true, 'example')} className="font-normal text-[#7C8092] underline mb-[16px] block">
+          <span onClick={() => mobileState.setOpen(true, 'education')} className="font-normal text-[#7C8092] underline mb-[16px] block">
             Пример описания образования
           </span>
           <TextEditor

@@ -165,7 +165,7 @@ const ResponsePage = () => {
 
                         <span className='mt-[23px] text-[#7C8092] text-[14px] leading-[18px]  block font-normal max-w-[437px]'>Обучающий видеоурок поможет вам быстрее находить общий язык с детьми и их родителями. Это обязательный этап перед началом работы.</span>
 
-                        <button className={'font-[onest] w-fit mt-auto text-[14px] leading-[18px] font-medium py-[6px] px-[12px] text-[#431DED] bg-[#E8E5F9] rounded-[8px]'}>
+                        <button onClick={() => mobileState.setOpen(false,'')} className={'font-[onest] w-fit mt-auto text-[14px] leading-[18px] font-medium py-[6px] px-[12px] text-[#431DED] bg-[#E8E5F9] rounded-[8px]'}>
                             Урок просмотрен
                         </button>
                     </div>
@@ -360,6 +360,52 @@ const ResponsePage = () => {
 
                 </div>
         </MobileModal>
+
+        <Popup styleMain={{
+              padding: '24px',
+              width: '669px',
+            }} top={false} title={false} onClose={() => mobileState.setOpen(false, '')}  isOpen={mobileState.isOpen && mobileState.type === 'education'} isNotBtn cross={true} setOpen={mobileState.setOpen}>
+              <div className={styles['response__content-inner']}>
+                <div className='flex flex-col gap-[32px] max-[768px]:gap-[16px]'>
+                  <div className='flex gap-[16px] flex-col'>
+                      <span className='font-[onest] font-semibold max-[768px]:text-[20px]'>
+                        2012–2016
+                      </span>
+
+                      <span className='font-[onest] font-normal'>
+                        Московский педагогический колледж, специальность «Воспитатель детей дошкольного возраста»
+                      </span>
+                  </div>
+                  <div className='flex gap-[16px] flex-col'>
+                      <span className='font-[onest] font-semibold max-[768px]:text-[20px]'>
+                        2012–2016
+                      </span>
+
+                      <span className='font-[onest] font-normal'>
+                        Московский педагогический колледж, специальность «Воспитатель детей дошкольного возраста»
+                      </span>
+                  </div>
+                  <div className='flex gap-[16px] flex-col'>
+                      <span className='font-[onest] font-semibold max-[768px]:text-[20px]'>
+                        2012–2016
+                      </span>
+
+                      <span className='font-[onest] font-normal'>
+                        Московский педагогический колледж, специальность «Воспитатель детей дошкольного возраста»
+                      </span>
+                  </div>
+                  <div className='flex gap-[16px] flex-col'>
+                      <span className='font-[onest] font-semibold max-[768px]:text-[20px]'>
+                        2012–2016
+                      </span>
+
+                      <span className='font-[onest] font-normal'>
+                        Московский педагогический колледж, специальность «Воспитатель детей дошкольного возраста»
+                      </span>
+                  </div>
+                </div>
+              </div>
+        </Popup>
 
         <MobileModal
           btn={false}
@@ -608,7 +654,10 @@ const ResponsePage = () => {
                 <b>124 000</b> ₽/мес
               </span>
 
-              <Button type='button' text='Изменить' heart={false} variation='five' />
+              <Button onClick={() => {
+                stage.setStage('six')
+                setEdit(true)
+              }} type='button' text='Изменить' heart={false} variation='five' />
             </div>
 
             <div className={styles['response__video-item']}>
@@ -630,7 +679,7 @@ const ResponsePage = () => {
             </div>
 
             <div className={styles['response__audio-item']}>
-              <AudioPlayer />
+              <AudioPlayer isEdit />
             </div>
 
             <div className={styles['response__contract-item']}>
@@ -685,7 +734,7 @@ const ResponsePage = () => {
               
               <button onClick={() => setStop(prev => !prev)} className={styles['response__panel-item-btn']}>
                 {
-                  isStop ? <>
+                  !isStop ? <>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M16 21V19C16 17.9391 15.5786 16.9217 14.8284 16.1716C14.0783 15.4214 13.0609 15 12 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M18 8L23 13M23 8L18 13M12.5 7C12.5 9.20914 10.7091 11 8.5 11C6.29086 11 4.5 9.20914 4.5 7C4.5 4.79086 6.29086 3 8.5 3C10.7091 3 12.5 4.79086 12.5 7Z" stroke="#181D27" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>

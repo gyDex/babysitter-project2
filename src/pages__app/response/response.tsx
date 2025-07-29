@@ -124,6 +124,8 @@ const ResponsePage = () => {
             </MobileModal>
         </div>
 
+                
+
         <Popup style={{
           minWidth: '633px',
         }} className={styles['response__popup-btn']} cross btnTitle='Отправить' title={<span className='min-w-[569px] block'>Договорились ли с няней <br />  Алиса Смирнова на работу?</span>} isOpen={

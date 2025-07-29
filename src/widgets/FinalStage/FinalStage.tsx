@@ -30,7 +30,7 @@ const FinalStage = () => {
                         </button>
 
                         <button type="button" className="shrink-0 max-[1024px]:w-full text-[onest] text-[#431DED] font-medium text-[14px] leading-[18px] bg-[#E8E5F9] pt-[6px] pb-[8px] px-[12px] rounded-[8px]">
-                            На главную
+                            Посмотреть вакансии
                         </button>
                     </div>
                 </div>

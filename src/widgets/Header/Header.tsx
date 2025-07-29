@@ -35,14 +35,14 @@ const Header = () => {
                 </Link>
 
                 {
-                    city !== undefined && (pathName.includes('/profile-babysitter/') ||pathName.includes('/profile-parent/') || pathName === '/auth' || pathName === '/authWithoutSub') && <div className={styles['header__city']}>
+                    city !== undefined && (pathName.includes('/profile-babysitter/')  || pathName.includes('/profile-parent/') || pathName === '/auth' || pathName === '/authWithoutSub') && <div className={styles['header__city']}>
                         <CitySelect title={city} items={cities} />
                     </div>
             }
 
                 {
                     <div className={clsx({
-                        ['hidden']: (pathName === '/auth' || pathName === '/authWithoutSub') || pathName.includes('/profile-parent/') || pathName.includes('/profile-babysitter/'),
+                        ['hidden']: (pathName === '/auth' || pathName === '/authWithoutSub') ||  pathName.includes('/about-you/')  ||pathName.includes('/profile-parent/') || pathName.includes('/profile-babysitter/'),
                     })}>
                         <nav className={styles.header__nav}>
                             <ul className={styles['header__nav-list']}>
@@ -133,7 +133,7 @@ const Header = () => {
                 }
 
                 {
-                    pathName.includes('/profile-parent/') || pathName.includes('/profile-babysitter/')  && <div className={styles['header__right-auth']}>
+                    (pathName.includes('/profile-parent/') || pathName.includes('/profile-babysitter/') || pathName.includes('/about-you/'))  && <div className={styles['header__right-auth']}>
                         {
                             pathName.includes('/profile-parent/') && <>
                                 <Link href={'/profile-parent/vacancy'} className={styles['header__btn-home']}>
@@ -147,7 +147,7 @@ const Header = () => {
                         }
 
                         {
-                            pathName.includes('/profile-babysitter/') && <>
+                            (pathName.includes('/profile-babysitter/') || pathName.includes('/about-you')) && <>
                                 <Link href={'/profile-babysitter/vacancy'} className={styles['header__btn-home']}>
                                     Вакансии
                                 </Link>                       
