@@ -661,11 +661,13 @@ const ResponsePage = () => {
             </div>
 
             <div className={styles['response__video-item']}>
-                <video
+                {/* <video
                     src={'/images/video-block/video.mp4'}
                     loop
                     playsInline                 
-                ></video>
+                ></video> */}
+
+                <Image alt='' src={'/images/card-babysit/image.jpg'} height={100} width={100} className='object-cover rounded-[16px] w-[214px] ' />
 
                 <div className={styles['response__video-item-right']}>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
