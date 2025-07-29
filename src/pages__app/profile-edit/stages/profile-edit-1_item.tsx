@@ -32,7 +32,6 @@ export const ProfileEditOneStageItem: React.FC<Props> = ({ index = 0, setValid }
   const { control, register, formState: { errors, isValid  }, trigger } =  useForm<FormValues>({
       resolver: zodResolver(formSchema),
       defaultValues: { gender: children[index].gender, age: children[index].age, },
-      mode: 'all',
   });
 
 
