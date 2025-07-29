@@ -1,0 +1,106 @@
+.phone-stage {
+    position: relative;
+    z-index: 100;
+    background-color: #FFFFFFCC;
+    backdrop-filter: blur(6px);
+    border-radius: 26px;
+    max-width: 679px;
+    width: 100%;
+    padding: 32px;
+
+
+    &__title {
+        font-family: Transforma Mix;
+        font-weight: 600;
+        font-size: 40px;
+        line-height: 28px;
+        letter-spacing: 0px;
+        color: #252525;
+
+        margin-bottom: 28px;
+    }
+
+    &__roles {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 40px;
+    }
+
+    &__role, &__role_active {
+        font-family: Onest;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 26px;
+        color: #7733F4;
+        border: 1px solid #7733F4;
+
+        padding: 11px;
+        padding-inline: 22px;
+        border-radius: 66px;
+        cursor: pointer;
+    }
+
+    &__role_active {
+        color: #FFFFFF;
+        background-color: #7733F4;
+    }
+
+    &__bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    &__input {
+        border: none;
+        outline: none;
+        border: 1px solid #7C8092;
+        min-height: 64px;
+        padding-inline: 16px;
+        color: #7C8092;
+        font-family: Onest;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 0px;
+        letter-spacing: 0px;
+        background-color: #FFFFFF;
+        border-radius: 16px;
+        width: 100%;
+    }
+
+    @media screen and (max-width: $tablets-max) {
+        &__title {
+            font-size: 24px;
+            line-height: 38px;
+            margin-bottom: 24px;
+        }
+
+        &__roles {
+            margin-bottom: 32px;
+        }
+
+        &__bottom {
+            gap: 12px;
+        }
+    }
+
+    @media screen and (min-width: $tablets) {
+        margin-top: 30px;
+
+        &__bottom {
+            display: flex;
+            width: 100%;
+            max-width: 100%;
+            gap: 20px;
+            flex-direction: row;
+        }
+
+        &__input {
+            max-width: 320px;
+        }
+
+        &__bottom > button {
+            width: 279px;
+        }
+    }
+}

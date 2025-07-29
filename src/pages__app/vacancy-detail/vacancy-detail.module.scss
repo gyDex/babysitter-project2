@@ -1,0 +1,47 @@
+.vacancy-detail {
+    padding-inline: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    &__container {
+        width: 100%;
+        max-width: 1200px;
+        margin-top: 95px;
+        border-radius: 16px;
+    }
+
+    &__btn {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        justify-content: center;
+
+        font-family: Onest;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0%;
+
+        color: #431DED;
+
+        border: 1.5px solid #431DED;
+        padding: 8px;
+        border-radius: 8px;
+        padding-inline: 12px;
+
+        margin-bottom: 10px;
+    }
+
+    @media screen and (min-width: $desktops-sm) {
+        padding-inline: 0px;
+
+        &__btn {
+            margin-bottom: 32px;
+        }
+
+        &__container {
+            margin-top: 120px;
+        }
+    }
+}

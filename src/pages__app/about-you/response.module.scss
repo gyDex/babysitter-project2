@@ -1,0 +1,51 @@
+.final-stage__btn-bottom_prev {
+    font-family: Onest;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: #431DED;
+    background-color: #E8E5F9;
+    border-radius: 8px;
+    padding: 8px;
+    padding-inline: 12px;
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.final-stage__btn-bottom_prev {
+    border: 1.5px solid #E8E5F9;
+    background-color: white;
+}
+
+.final-stage__btn-bottom {
+    font-family: Onest;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: #431DED;
+    background-color: #E8E5F9;
+    border-radius: 8px;
+    padding: 8px;
+    padding-inline: 12px;
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    margin-top: 24px;
+    cursor: pointer;
+}
+
+.final-stage__btn-bottom {
+    border: 1.5px solid #E8E5F9;
+    background-color: white;
+}
+
+.popup-inner {
+    min-height: 226px !important;
+}

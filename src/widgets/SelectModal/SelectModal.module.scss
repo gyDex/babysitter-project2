@@ -1,0 +1,20 @@
+.input {
+    width: 100%;
+    background-color: red;
+    z-index: 1000;
+    height: 100%;
+    padding-left: 16px;
+    position: relative;
+
+    font-family: Onest;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+
+    &::placeholder {
+        font-family: Onest;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 24px;
+    }
+}

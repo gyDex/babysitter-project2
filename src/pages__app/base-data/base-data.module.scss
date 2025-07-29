@@ -1,0 +1,117 @@
+.base-data {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 98px;
+
+    &__container {
+        width: 100%;
+        max-width: 1200px;
+    }
+
+    &__title {
+        font-family: Onest;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 26px;
+        letter-spacing: 0%;
+        color: #191816;
+    }
+
+    &__filter {
+        margin-top: 32px;
+        display: flex;
+        gap: 24px;
+        margin-bottom: 40px;
+    }
+
+    &__filter-title {
+        font-family: Inter;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0px;
+        color: #8E8E8E;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    &__filter-row {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__filter-btn {
+        display: none;
+
+        background-color: #FFFFFF;
+        border-radius: 6px;
+        min-height: 32px;
+        min-width: 32px;
+
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+    }
+
+    &__select-modal > div > div {
+        font-family: Onest;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 24px;
+        letter-spacing: 0px;
+        color: #191816;
+        text-align: start;
+    }
+
+    &__select-modal > svg {
+        fill: #8E8E8E;
+    }
+
+    &__container > div:first-child > div:first-child {
+        background-color: #F1EFE5 !important;
+    }
+
+    &__content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+
+    @media screen and (min-width: $tablets) {
+        &__title {
+            font-size: 32px;
+        }
+    }
+
+    @media screen and (max-width: $tablets) {
+        &__filter {
+            display: none;
+        }
+
+        &__filter-btn {
+            display: flex;
+        }
+
+        &__content {
+            margin-top: 16px;
+        }
+    }
+
+    @media screen and (max-width: $desktops-md) {
+        &__container {
+            padding-inline: 16px;
+        }
+
+        &__content {
+            grid-template-columns: 1fr;
+        }
+    }
+}
