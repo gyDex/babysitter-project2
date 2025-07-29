@@ -23,7 +23,7 @@ const ResponsePage = () => {
   
   const [stageModalSecond, setStageSecondModal] = useState(false);
   
-  const [stageModal, setStageFirstModal] = useState(true);
+  const [, setStageFirstModal] = useState(true);
   const [stageModalSelect, setStageFirstModalSelect] = useState('');
 
   const router = useRouter();
