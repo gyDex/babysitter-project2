@@ -1,0 +1,20 @@
+$phones-min: 360px;
+$phones-sm: 360px;
+$phones-md: 420px;
+$phones-lg: 575px;
+
+$tablets: 740px;
+
+$desktops-sm: 1000px;
+$desktops-md: 1240px;
+$desktops-lg: 1400px;
+$desktops-xl: 1600px;
+
+$phones-sm-max: $phones-md - 0.02px;
+$phones-max: $tablets - 0.02px;
+
+$tablets-max: $desktops-sm - 0.02px;
+
+$desktops-sm-max: $desktops-md - 0.02px;
+$desktops-md-max: $desktops-lg - 0.02px;
+$desktops-lg-max: $desktops-xl - 0.02px;

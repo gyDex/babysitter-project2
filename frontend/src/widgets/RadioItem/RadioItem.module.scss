@@ -1,0 +1,32 @@
+.radio-item {
+  border: 1px solid #D9D9D9;
+  border-radius: 16px;
+  padding: 18px 16px;
+  padding-bottom: 12px;
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 60px;
+
+  font-family: Onest;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0px;
+
+  &__description {
+    display: block;
+    font-family: Onest;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0px;  
+    color: #7C8092;
+  }
+
+  &[data-state="checked"] {
+    border: 2px solid #7733F4;
+  }
+}
+

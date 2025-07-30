@@ -1,0 +1,113 @@
+.before-pay {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 64px;
+
+    &__list {
+        display: flex;
+        max-width: 1200px;
+        width: 100%;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 28px;
+        flex-direction: column ;
+    }
+
+    &__item {
+        width: 100%;
+        padding: 24px;
+        background-color: #FFFFFF;
+        display: flex;
+        min-height: 146px;
+        border-radius: 16px;
+        position: relative;
+        overflow: hidden;
+        flex-direction: column;
+        gap: 44px;
+        justify-content: space-between;
+    }
+
+    &__number {
+        min-height: 32;
+        border-radius: 24px;
+        padding-top: 7px;
+        padding-right: 16px;
+        padding-bottom: 7px;
+        padding-left: 16px;
+        background-color: #7733F4;
+
+        font-family: Onest;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        height: max-content;
+        width: max-content;
+            color: white;
+
+    }
+
+    &__title {
+        font-family: 'Transforma Mix';
+        font-weight: 600;
+        padding-inline: 16px;
+
+        font-size:28px;
+        line-height: 34px;
+        letter-spacing: 0px;
+
+        color: #000000;
+        text-align: left;
+        width: 100%;
+        max-width: 1200px;
+    }
+
+    &__item-title {
+        font-family: Onest;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+        letter-spacing: 0px;
+        color: #000000;
+
+        justify-self: flex-end;
+    }
+
+    &__item svg {
+        position: absolute;
+        right: 20px;
+        top: 10px;
+    }
+
+    @media screen and (max-width: $desktops-sm) {
+        &__list {
+            padding-inline: 16px;
+        }
+    }
+
+    @media screen and (min-width: $desktops-sm) {
+
+
+        &__list {
+            margin-top: 40px;
+            flex-direction: row;
+            gap: 24px;
+        }
+
+        &__item {
+            width: 25%;
+            gap: 24px;
+
+        }
+
+        &__title {
+            padding: 0px;
+            font-size:40px;
+            line-height: 48px;
+            margin-bottom: 10px;
+        }
+
+        padding-inline:16px;
+    }
+}

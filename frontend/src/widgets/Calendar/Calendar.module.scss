@@ -1,0 +1,158 @@
+.calendar {
+    &__inner {
+        display: flex;
+        gap: 6px;
+    }
+
+    &__left {
+        display: flex;
+        margin-top: 29px;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__left-item {
+        height: 37px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__right {
+        width: 328px;
+        overflow: auto;
+    }
+
+    &__right-top {
+        display: flex;
+        
+        gap: 4px;
+    }
+
+    &__right-content {
+        max-width: 328px;
+        display: grid;
+        margin-top: 8px;
+        grid-template-columns: 37px 37px 37px 37px 37px 37px 37px;
+        width: 100%;
+        gap: 2px;
+    }
+
+    &__right-content-item, &__right-content-item_noedit {
+        border: 0.88px solid #D9D9D9;
+        background: #FFFFFF;
+        width: 37px;
+        height: 37px;
+        padding: 4px;
+    }
+
+    &__top-item {
+        width: 37px;
+        display: flex;
+        flex-shrink: 0;
+        justify-content: center;
+        height: 21px;
+    }
+
+    @media screen and (max-width: $tablets) {
+        &__right-content-item, &__right-content-item_noedit {
+            border-radius: 7px;
+        }
+
+        &__top-item {
+            font-family: Onest;
+            font-weight: 700;
+            font-size: 6.51px;
+            line-height: 9.89px;
+            letter-spacing: 0px;
+            text-align: center;
+            height: 11px;
+        }
+
+        &__right-top {
+            gap: 2px;
+        }
+
+        &__left {
+            margin-top: 16px;
+        }
+
+        &__right-content {
+            margin-top: 4px;
+        }
+
+        &__left-item {
+            font-family: Onest;
+            font-weight: 700;
+            font-style: Bold;
+            font-size: 6.51px;
+            line-height: 9.89px;
+            letter-spacing: 0px;
+            text-align: center;
+        }
+
+        &__inner {
+            gap: 4px;
+        }
+    }
+
+    @media screen and (min-width: $tablets) {
+        &__inner {
+            width: 100%;
+            max-width: fit-content;
+        }
+        
+        &__right-content-item, &__right-content-item_noedit {
+            padding: 16px;
+        }
+
+        &__right-content {
+            max-width: 100%;
+            grid-template-columns: 80px 80px 80px 80px 80px 80px 80px;
+
+            gap: 4px;
+        }
+
+        &__right {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        &__right-content-item, &__right-content-item_noedit {
+            min-width: 80px;
+            height: 80px;
+            border-radius: 8px;
+        }
+
+        &__right-top {
+            gap: 0px;
+        }
+
+        &__right-top {
+            gap: 4px;
+        }
+
+        &__top-item {
+            width: 80px;
+        }
+
+        &__left {
+            gap: 4px;
+        }
+
+        &__left-item {
+            height: 80px;
+        }
+    }
+
+    
+    @media (hover: hover) and (pointer: fine) {
+        &__right-content-item:hover &__content-item-inner {
+            width: 100%;
+            height: 100%;
+           border-radius: 4px;
+           background-color: #E8E5F9;
+        }
+    }
+}
+
