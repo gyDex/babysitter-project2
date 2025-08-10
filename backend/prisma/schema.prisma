@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  uuid          String    @unique @default(uuid())
+  email         String?    @unique 
+  fullName      String?
+  age           String?
+  residency     String?
+  userAvatar    String?
+  refreshToken  String?
+  createdAt     DateTime  @default(now())
+  updateAt      DateTime?
+
+  isVerified  Boolean  @default(false)
+
+  phone         String    @unique
+
+  roles         UserRole[]
+
+  // Relations
+  nannyProfile   NannyProfile?
+  parentProfile  ParentProfile?
+
+  otpCodes    OTPCode[]
+}
+
+model OTPCode {
+  id        String   @id @default(uuid())
+  code      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  used      Boolean  @default(false)
+}
+
+enum UserRole {
+  PARENT
+  NANNY
+}
+
+model NannyProfile {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @unique
+
+  isValidated Boolean?  @default(false)
+
+  charts      Boolean[] @default([])
+  about       String?
+  education   String?
+  jobs        String?
+  occupancy   String?
+  experience  String?
+  agesBaby    String[]  @default([]) 
+  duties      Boolean[]  @default([])
+  advantages  Boolean[]  @default([])
+  rating      String?
+}
+
+model ParentProfile {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @unique
+
+  subscribe   SubscribeParent?
+
+  vacancy     Vacancy[]
+}
+
+model SubscribeParent {
+  id        String @id @default(cuid())
+  parentId  String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  parent    ParentProfile @relation(fields: [parentId], references: [id])
+}
+
+model Vacancy {
+  id        String          @id @default(cuid())
+  parentId  String         
+  parent    ParentProfile   @relation(fields: [parentId], references: [id])
+
+  createdAt DateTime         @default(now())
+
+  childrens Children[]
+
+  charts    Boolean[]
+
+  description String
+
+  occupation Boolean[]
+
+  duties     Boolean[]
+
+  question   String
+
+  request    String?
+
+  payType    String
+  pay        String[]     @default([])
+
+  addInfo    String?      
+
+  responses Response[]     
+}
+
+model Children {
+  id        String              @id @default(cuid())
+  vacId     String            
+  vacancy    Vacancy            @relation(fields: [vacId], references: [id])
+
+  gender    String
+  age       String
+}
+
+model Response {
+  id        String        @id @default(cuid())
+  vacancyId  String        @unique
+
+  vacancy   Vacancy       @relation(fields: [vacancyId], references: [id])
+}
