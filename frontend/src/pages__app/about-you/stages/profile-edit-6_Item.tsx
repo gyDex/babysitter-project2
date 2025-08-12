@@ -99,9 +99,9 @@ const ProfileEditSixStageItem: React.FC<Props> = ({
         min={0}
         max={100}
         value={selectedValue === value ? sliderValue : [0, 100]}
-        onChange={(val) => {
+        onChange={(val: any) => {
           if (Array.isArray(val)) {
-            setSliderValue(val);
+            setSliderValue(val as any);
             setPay([toRealValue(val[0]), toRealValue(val[1])]);
             console.log('Реальные значения:', [
               toRealValue(val[0]),
