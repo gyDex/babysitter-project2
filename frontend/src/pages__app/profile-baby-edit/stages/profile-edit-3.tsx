@@ -2,6 +2,7 @@ import styles from './profile-edit-stage.module.scss';
 import { useEditBabysitterStage } from "@/entities/stores/useEditBabysitterStage";
 import { useAnketsBabysitter } from "@/entities/stores/useAnketsBabysitter";
 import clsx from 'clsx';
+import { useEffect } from 'react';
 
 
 const ProfileEditThreeStage = () => {
@@ -29,7 +30,19 @@ const ProfileEditThreeStage = () => {
             name:'10 лет и старше',
             id: '10more',
         }
-    ]
+  ]
+
+  console.log(age)
+
+  useEffect( () => {
+      setAge(ages.map((item, index) => {
+        return {
+          name: item.name,
+          id: item.id,
+          select: age[index].select
+        }
+      }))
+  },[]) 
 
   return (
     <div className={styles['profile-edit-stage']}>
@@ -55,19 +68,29 @@ const ProfileEditThreeStage = () => {
 
       <div className='flex-wrap gap-[8px] flex'>
         {
-            ages.map((item) => <>
+              ages.map((item, index) => <>
                 <button className={clsx('px-[24px] py-[16px] rounded-[24px] font-[onest] leading-[18px] text-[14px] font-semibold',
-                    {
-                        ['bg-[#7733F4] text-[white]'] : age === item.id,
-                        ['bg-[#EFF0F5] text-[#191816]'] : age !== item.id
-                    }
+                  {
+                      ['bg-[#7733F4] text-[white]'] : age[index]?.select === true,
+                      ['bg-[#EFF0F5] text-[#191816]'] : age[index]?.select !== true
+                  }
                 )} key={item.id} onClick={() => {
-                    if (item.id == age) {
-                        setAge('')
+                    const prev = age;
+
+                    if (age[index].select !== true) {
+                        prev[index] = {
+                          ...prev[index],
+                          select: true,
+                        };
+                        setAge(prev)
                         return;
                     }
 
-                    setAge(item.id)
+                    prev[index] = {
+                      ...prev[index],
+                      select: false,
+                    };
+                    setAge(prev)
                 }}>
                     {item.name}
                 </button>

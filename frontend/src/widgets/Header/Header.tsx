@@ -35,10 +35,10 @@ const Header = () => {
                 </Link>
 
                 {
-                    city !== undefined && (pathName.includes('/profile-babysitter/')  || pathName.includes('/profile-parent/') || pathName === '/auth' || pathName === '/authWithoutSub') && <div className={styles['header__city']}>
-                        <CitySelect title={city} items={cities} />
+                    authState.user &&  authState.user.residency !== null && authState.user.residency !== undefined && (pathName.includes('/profile-babysitter/')  || pathName.includes('/profile-parent/') || pathName === '/auth' || pathName === '/authWithoutSub') && <div className={styles['header__city']}>
+                        <CitySelect title={authState.user.residency} items={cities} />
                     </div>
-            }
+                }
 
                 {
                     <div className={clsx({
@@ -135,7 +135,7 @@ const Header = () => {
                 {
                     (pathName.includes('/profile-parent/') || pathName.includes('/profile-babysitter/') || pathName.includes('/about-you/'))  && <div className={styles['header__right-auth']}>
                         {
-                            pathName.includes('/profile-parent/') && <>
+                            pathName.includes('/profile-parent/') && authState.isAuth && authState.user && authState.user.parentProfile !== null && <>
                                 <Link href={'/profile-parent/vacancy'} className={styles['header__btn-home']}>
                                     Разместить вакансию
                                 </Link>
@@ -155,11 +155,19 @@ const Header = () => {
                         }
                         
 
-                        <Link className='font-semibold flex gap-[8px] items-center' href={'/profile-parent/response'}>
-                            Мой профиль
+                        <button onClick={() => 
+                            {
+                                if (authState.isAuth && authState.user.nannyProfile)
+                                {
+                                    route.push('/profile-babysitter/response')
+                                }
+                            }} className='font-semibold text-[white] flex gap-[8px] items-center'>
+                            {
+                                authState?.user?.fullName
+                            }
 
-                            <Image height={32} width={32} className='rounded-full border-[white] border-[1px] object-cover !w-[32px] !h-[32px]'  src={'/images/header/avatar.png'} alt='avatar'/>
-                        </Link>
+                            <img height={32} width={32} className='rounded-full border-[white] border-[1px] object-cover !w-[32px] !h-[32px]'  src={authState?.user?.userAvatar !== null && authState?.user?.userAvatar !== '' && authState?.user?.userAvatar ? authState?.user?.userAvatar : '/images/header/avatar.png'} alt='avatar'/>
+                        </button>
                     </div>
                 }
 

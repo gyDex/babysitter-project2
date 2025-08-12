@@ -57,8 +57,8 @@ const ProfileEditSixStage = () => {
             <ProfileEditSixStageItem
                 selectedValue={typePay}
                 setSelectedValue={setTypePay}
-                maxSlider={200}
-                minSlider={3000}
+                maxSlider={3000}
+                minSlider={200}
                 description="Минимально приемлемая"
                 name="Почасовая (₽/час)"
                 id={'hourly'}
@@ -68,8 +68,8 @@ const ProfileEditSixStage = () => {
             <ProfileEditSixStageItem
                 selectedValue={typePay}
                 setSelectedValue={setTypePay}
-                maxSlider={50000}
-                minSlider={250000}
+                maxSlider={250000}
+                minSlider={50000}
                 description="Минимально приемлемая"
                 name="Месячная (₽/мес)"
                 id={'monthly'}

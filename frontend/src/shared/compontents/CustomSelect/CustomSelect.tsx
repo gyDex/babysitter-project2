@@ -8,12 +8,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { values } from "lodash";
 import { useState } from "react";
 
 
 type Props = {
   items: Item[],
   title: string | undefined,
+  onChange: (e: any) => void,
+  value: string,
 }
 
 type Item = {
@@ -21,12 +24,12 @@ type Item = {
   id: string,
 }
 
-export const CustomSelect:React.FC<Props> = ({items, title}) => {
+export const CustomSelect:React.FC<Props> = ({items, title, value, onChange}) => {
 
   const [isOpen, setOpen] = useState(false) as any;    
 
   return (
-    <Select  open={isOpen} onOpenChange={() => setOpen((prev: boolean) => !prev)}>
+    <Select defaultValue={value} value={value}  onValueChange={onChange} open={isOpen} onOpenChange={() => setOpen((prev: boolean) => !prev)}>
       <SelectTrigger   className="select w-fit bg-[#FFFFFF] rounded-[16px] max-[425px]:!mb-[0px] max-[425px]:mt-[24px]">
         <SelectValue placeholder={title} />
         {

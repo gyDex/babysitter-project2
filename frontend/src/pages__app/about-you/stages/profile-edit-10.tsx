@@ -93,8 +93,6 @@ const ProfileEditTenStage = () => {
             Прикрепите документы, подтверждающие образование
           </span>
           <FileUploadBox
-            title="Загрузите фотографию"
-            types="JPEG, PNG"
             text={<>Перетяните или <span className="text-[#431DED]">загрузите</span> файлы</>}
             description="JPEG, PNG, PDF"
           />
@@ -114,6 +112,10 @@ const ProfileEditTenStage = () => {
           className={styles['profile-edit-stage__btn-bottom']}
         >
           Продолжить
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.61935 3.95312L13.666 7.99979L9.61935 12.0465" stroke="#431DED" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.33273 8H13.5527" stroke="#431DED" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       </div>
     </div>

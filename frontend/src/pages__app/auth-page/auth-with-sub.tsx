@@ -26,7 +26,7 @@ const AuthWithoutSubPage:React.FC<Props> = ({without_sub = false}) => {
             <div className={styles['auth-page']}>
                 <div className={styles['auth-page__bg']}>
                     <video
-                    src="/images/main-hero/video.mp4"
+                    src="https://rccsowmhkwlvmka0.public.blob.vercel-storage.com/222.mp4"
                     width={100}
                     height={100}
                     autoPlay

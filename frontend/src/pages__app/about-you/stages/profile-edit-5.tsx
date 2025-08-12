@@ -4,8 +4,8 @@ import styles from './profile-edit-stage.module.scss';
 import { useState } from 'react';
 import { RadioGroup } from '@/components/ui/radio-group';
 import RadioItem from '@/widgets/RadioItem/RadioItem';
-import { useAnketsParent } from '@/entities/stores/useAnketsParent';
 import { useEditBabysitterStage } from '@/entities/stores/useEditBabysitterStage';
+import { useAnketsBabysitter } from '@/entities/stores/useAnketsBabysitter';
 
 const ProfileEditFiveStage = () => {
     const stage = useEditBabysitterStage();
@@ -13,10 +13,10 @@ const ProfileEditFiveStage = () => {
     const [isAgreementChecked] = useState(false);
     const [error, setError] = useState(false);
 
-    const { typePay, setTypePay } = useAnketsParent();
+    const { occupation, setOccupation } = useAnketsBabysitter();
 
     const handleContinue = () => {
-        const isValid = !!typePay || isAgreementChecked;
+        const isValid = !!occupation || isAgreementChecked;
 
         if (!isValid) {
         setError(true);
@@ -61,8 +61,8 @@ const ProfileEditFiveStage = () => {
                         name={'Полная'}
                         value={'full'}
                         variation='second'
-                        checked={typePay === 'full'}
-                        onChange={() => setTypePay(('full'))}
+                        checked={occupation === 'full'}
+                        onChange={() => setOccupation(('full'))}
                     />
                 </div>
                 <div className="max-[768px]:mb-[16px] min-[1024px]:min-w-[150px] flex gap-[12px] flex-col" role="radiogroup">
@@ -74,8 +74,8 @@ const ProfileEditFiveStage = () => {
                         name={'Частичная'}
                         value={'part'}
                         variation='second'
-                        checked={typePay === 'part'}
-                        onChange={() => setTypePay(('part'))}
+                        checked={occupation === 'part'}
+                        onChange={() => setOccupation(('part'))}
                     />
                 </div>
                 <div className="max-[768px]:mb-[16px] min-[1024px]:min-w-[300px] flex gap-[12px] flex-col" role="radiogroup">
@@ -87,8 +87,8 @@ const ProfileEditFiveStage = () => {
                         name={'Мне подходят оба варианта'}
                         value={'both'}
                         variation='second'
-                        checked={typePay === 'both'}
-                        onChange={() => setTypePay(('both'))}
+                        checked={occupation === 'both'}
+                        onChange={() => setOccupation(('both'))}
                     />
                 </div>
             </RadioGroup>

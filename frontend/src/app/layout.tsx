@@ -3,6 +3,7 @@ import { Inter, Onest } from "next/font/google";
 import "./globals.css";
 import Header from "@/widgets/Header/Header";
 import Footer from "@/widgets/Footer/Footer";
+import AuthProvider from "@/shared/hoc/AuthProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,9 +31,11 @@ export default function RootLayout({
         <link rel="stylesheet" href="/fonts/TransformaMix/styles.css" />
       </head>
       <body className={`${inter.variable} ${onest.variable} antialiased`}>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

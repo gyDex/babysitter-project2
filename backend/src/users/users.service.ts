@@ -18,20 +18,124 @@ export class UsersService {
     private readonly configService: ConfigService,
   ) {}
 
+    async getSimNanny(id: string, userId: string) {
+        try {
+            console.log(userId)
+
+            const user = await this.prisma.user.findFirst({
+                where: {
+                    id: userId
+                },
+            })
+
+            const nannies = await this.prisma.nannyProfile.findMany({
+                where: {
+                    user: {
+                        residency: user?.residency
+                    },
+                    NOT: {
+                       id: id,
+                    }
+                },
+                include: {
+                    user: true,
+                    response: true,
+                },
+                take: 2,                
+            })
+
+            if (!nannies) {
+                throw new NotFoundException('Nannies not found!');
+            }
+
+            return nannies;
+        } catch (error) {
+            console.log(error)
+
+            if (error.code === '42P01') {
+                throw new InternalServerErrorException('Database configuration error');
+            }
+
+            throw new InternalServerErrorException('An unexpected error occurred');
+        }
+    }
+
+    async changeCity(city: string, userId: string) {
+        try {
+            const user = await this.prisma.user.update({
+                where: {
+                    id: userId
+                },
+                data: {
+                    residency: city
+                }
+            })
+ 
+            if (!user) {
+                throw new NotFoundException('User not found!');
+            }
+
+            return user;
+        } catch (error) {
+            console.log(error)
+
+            if (error.code === '42P01') {
+                throw new InternalServerErrorException('Database configuration error');
+            }
+
+            throw new InternalServerErrorException('An unexpected error occurred');
+        }
+    }
+
+    async getNannyProfileById(id: string) {
+        try {
+            const nanny = await this.prisma.user.findFirst({
+                where: {
+                    nannyProfile: {
+                        userId: id
+                    },
+                },
+                include: {
+                    nannyProfile: {
+                        include: {
+                            request: true,
+                            response: true,
+                            user: true,
+                        }
+                    }
+                }
+            })
+
+            return nanny;
+        } catch (error) {
+            console.log(error)
+
+            if (error.code === '42P01') {
+                throw new InternalServerErrorException('Database configuration error');
+            }
+
+            throw new InternalServerErrorException('An unexpected error occurred');
+        }
+    }
+
     async getNannyById(id: string) {
         try {
             const nanny = await this.prisma.user.findFirst({
                 where: {
-                    id: id,
+                    nannyProfile: {
+                        id: id
+                    },
                 },
                 include: {
-                    nannyProfile: true
+                    nannyProfile: {
+                        include: {
+                            request: true,
+                            response: true,
+                            user: true,
+                        }
+                    }
                 }
             })
-
-            if (nanny === undefined) {
-                throw new NotFoundException('Nanny profile not found!');
-            }
 
             return nanny;
         } catch (error) {
@@ -73,11 +177,64 @@ export class UsersService {
         }
     }
 
-    async getVacancyById(id: string) {
+    async getNannyByCity(city: string) {
         try {
-            const vacancy = await this.prisma.vacancy.findFirst({
+            console.log('city sik')
+            
+            let nanny = await this.prisma.nannyProfile.findMany({
                 where: {
-                    id: id
+                    user: {
+                        residency: city
+                    }
+                },
+                include: {
+                    response: true,
+                    user: true,
+                }
+            })
+
+            console.log('nanny',nanny)
+
+            if (city === 'Москва') {
+                nanny = await this.prisma.nannyProfile.findMany({
+                    where: {
+                        user: {
+                            residency: city
+                        }
+                    },
+                    include: {
+                        response: true,
+                        user: true,
+                    }
+                })
+            }
+
+            if (nanny.length === 0) {
+            throw new NotFoundException('Nanny not found!');
+            }
+            console.log('NANNY', nanny)
+
+            return nanny;
+
+        } catch (error) {
+
+            if (error.code === '42P01') {
+                throw new InternalServerErrorException('Database configuration error');
+            }
+
+            throw new InternalServerErrorException('An unexpected error occurred');
+        }
+    }
+
+    async getVacancyByCity(city: string) {
+        try {
+            const vacancy = await this.prisma.vacancy.findMany({
+                where: {
+                    parent: {
+                        user: {
+                            residency: city
+                        }
+                    }
                 },
                 include: {
                     childrens: true,
@@ -97,7 +254,50 @@ export class UsersService {
             return vacancy;
 
         } catch (error) {
+            console.log(error)
+            if (error.code === '42P01') {
+                throw new InternalServerErrorException('Database configuration error');
+            }
 
+            throw new InternalServerErrorException('An unexpected error occurred');
+        }
+    }
+
+    async getVacancyById(id: string) {
+        try {
+            const vacancy = await this.prisma.vacancy.findFirst({
+                where: {
+                    id: id
+                },
+                include: {
+                    childrens: true,
+                    parent: {
+                        include: {
+                            user: true
+                        }
+                    },
+                    responses: {
+                        include: {
+                            nanny: {
+                                include: {
+                                    user: true,
+                                    request: true,
+                                    response: true
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+
+            if (!vacancy) {
+                throw new NotFoundException('Vacancy not found!');
+            }
+
+            return vacancy;
+
+        } catch (error) {
+            console.log(error)
             if (error.code === '42P01') {
                 throw new InternalServerErrorException('Database configuration error');
             }
@@ -131,7 +331,13 @@ export class UsersService {
                             user: true
                         }
                     },
-                    childrens: true
+                    childrens: true,
+                    responses: {
+                        include: {
+                            nanny: true,
+                            vacancy: true
+                        }
+                    }
                 }
             })
 
@@ -314,6 +520,45 @@ export class UsersService {
         }
     }
 
+    async createRequest(body: any) {
+        try {
+            console.log(body)
+
+            const nanny = await this.prisma.nannyProfile.update({
+                where: {
+                    id: body.id,
+                },
+                data: {
+                    request: {
+                        create: {
+                            message: body.message,
+                            parent: body.parent,
+                        }
+                    }
+                },
+                include: {
+                    request: true,
+                    response: true,
+                    user: true
+                }
+            })
+
+            if (!nanny) {
+                throw new NotFoundException('Nanny profile not found!');
+            }
+
+            return nanny;
+        } catch (error) {
+            console.log(error)
+
+            if (error.code === '42P01') {
+                throw new InternalServerErrorException('Database configuration error');
+            }
+
+            throw new InternalServerErrorException('An unexpected error occurred');
+        }
+    }
+
     async subscribeParent(id: string) {
         try {
             const subExpirationMs = parseInt(
@@ -405,11 +650,11 @@ export class UsersService {
             }
 
             if (data.nanny?.education) {
-                data.nanny.education = DOMPurify.sanitize(data.nanny.jobs);
+                data.nanny.education = DOMPurify.sanitize(data.nanny.education);
             }
 
             if (data.nanny?.about) {
-                data.nanny.about = DOMPurify.sanitize(data.nanny.jobs);
+                data.nanny.about = DOMPurify.sanitize(data.nanny.about);
             }
 
             const updatedUser = await this.prisma.user.update({
@@ -435,11 +680,11 @@ export class UsersService {
             console.error('Update nanny error:', error);
 
             if (error.code === '23505') {
-            throw new ConflictException('Email already exists');
+                throw new ConflictException('Email already exists');
             }
 
             if (error.code === '42P01') {
-            throw new InternalServerErrorException('Database configuration error');
+                throw new InternalServerErrorException('Database configuration error');
             }
 
             throw new InternalServerErrorException('An unexpected error occurred');
@@ -530,9 +775,53 @@ export class UsersService {
 
             return updatedUser;
         } catch (error) {
-            if (error.code === '23505') {
-                throw new ConflictException('Email already exists');
+            if (error.code === '42P01') {
+                throw new InternalServerErrorException('Database configuration error');
             }
+
+            throw new InternalServerErrorException('An unexpected error occurred');
+        }
+    }
+
+    async respond(nannyId: string, vacId: string, message: string) {
+        try {
+            const updateVacancy = await this.prisma.vacancy.update(
+                {
+                    where: {
+                        id: vacId,
+                    },
+                    data: {
+                        responses: {
+                            create: {
+                                nanny: {
+                                    connect: { id: nannyId }
+                                },
+                                message: message 
+                            }, 
+                        }
+                    },
+                    include: {
+                        childrens: true,
+                        parent: true,
+                        responses: {
+                            include: {
+                                nanny: true,
+                                vacancy: true,
+                            }
+                        },
+                    }
+                },
+            )
+
+            if (updateVacancy === null || updateVacancy === undefined) {
+                throw new NotFoundException('Vacancy not found!')
+            }
+
+            return updateVacancy;
+        } 
+        
+        catch (error) {
+            console.log(error)
 
             if (error.code === '42P01') {
                 throw new InternalServerErrorException('Database configuration error');

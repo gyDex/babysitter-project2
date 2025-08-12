@@ -12,22 +12,34 @@ import { useEffect } from 'react';
 import { useHeader } from '@/entities/stores/useHeader';
 import HeaderMenu from '@/widgets/HeaderMenu/HeaderMenu';
 import { useEditParentStage } from '@/entities/stores/useEditParentStage';
+import { useParams } from 'next/navigation';
+import { getVacancyById } from '@/shared/api/parentApi';
+import { useAnketsParent } from '@/entities/stores/useAnketsParent';
+
 const ProfileParentEditPage = () => {
     const stage = useEditParentStage();
 
     const headerState = useHeader();
 
-    
+    const parentAnketa = useAnketsParent();
+
+    const { id } = useParams();
+
     useEffect(() => {
         headerState.setTransparent(false);
 
+        const getData = async() => {
+            await getVacancyById(id as any).then((data: any) => {
+                parentAnketa.setData(data)
+            })
+        }
+
+        getData();
     }, [])
 
     return (
         <>
             <HeaderMenu />
-
-
 
             <section className={styles['profile-edit']}>
                 <div className={styles['profile-edit__container']}>

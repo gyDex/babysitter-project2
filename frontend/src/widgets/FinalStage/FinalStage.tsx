@@ -1,9 +1,12 @@
 import Image from "next/image"
 import styles from './FinalStage.module.scss'
 import { useEditBabysitterStage } from "@/entities/stores/useEditBabysitterStage"
+import { useRouter } from "next/navigation";
 
 const FinalStage = () => {
     const stage = useEditBabysitterStage();
+
+    const router = useRouter();
 
   return (
     <>
@@ -20,7 +23,7 @@ const FinalStage = () => {
                     </div>
                     
                     <div className="z-[10] relative flex max-[1024px]:!flex-col gap-[12px] w-full items-center mt-[31px]">
-                        <button onClick={() => stage.setStage('eleven')} className={styles['final-stage__btn-bottom_prev']}>
+                        <button onClick={() => stage.setStage('twelve')} className={styles['final-stage__btn-bottom_prev']}>
                         <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M6.88065 3.95312L2.83398 7.99979L6.88065 12.0465" stroke="#431DED" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M14.1673 8H2.94727" stroke="#431DED" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -29,7 +32,7 @@ const FinalStage = () => {
                         Вернуться к редактированию
                         </button>
 
-                        <button type="button" className="shrink-0 max-[1024px]:w-full text-[onest] text-[#431DED] font-medium text-[14px] leading-[18px] bg-[#E8E5F9] pt-[6px] pb-[8px] px-[12px] rounded-[8px]">
+                        <button onClick={() => router.push('/profile-babysitter/vacancy')} type="button" className="shrink-0 max-[1024px]:w-full text-[onest] text-[#431DED] font-medium text-[14px] leading-[18px] bg-[#E8E5F9] pt-[6px] pb-[8px] px-[12px] rounded-[8px]">
                             Посмотреть вакансии
                         </button>
                     </div>

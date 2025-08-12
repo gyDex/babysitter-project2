@@ -19,7 +19,7 @@ const NotFoundPage = () => {
     <div className={styles['not-found']}>
       <div className={styles['not-found__bg']}>
         <video
-          src="/images/not-found/video.mp4"
+          src="https://rccsowmhkwlvmka0.public.blob.vercel-storage.com/5124584-uhd_3840_2160_25fps.mp4"
           width={100}
           height={100}
           autoPlay

@@ -9,9 +9,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import { EditorState } from 'draft-js';
 import { useMobileState } from '@/entities/stores/useMobileModal';
+import { editData } from '@/shared/api/nannyApi';
+import { useAuth } from '@/entities/stores/useAuth';
 
 const schema = z.object({
-  about: z.any(), // we validate manually in the component
+  about: z.any(), 
 });
 
 
@@ -20,7 +22,14 @@ const ProfileEditElevenStage = () => {
 
   const mobileState = useMobileState();
 
-  const { setAbout, about } = useAnketsBabysitter();
+  const { user } = useAuth();
+
+  const { setAbout, pathAudio, pathAvatar, pathEducation, about, education, age, ageBabysitter, jobs, name,
+    occupation, typePay, duties, count, email, chart, pay,location,
+    setAudio, setAvatar,
+  } = useAnketsBabysitter();
+
+  console.log(pay)
 
     const {
       control,
@@ -49,6 +58,46 @@ const ProfileEditElevenStage = () => {
       }
 
       setAbout(text);
+
+      console.log('ageBabysitter',age)
+
+      console.log('ageBabysitter',ageBabysitter)
+
+      const result = {
+          nanny: {
+            about: about,
+            education: education,
+            jobs: jobs,
+            typePay: typePay,
+            pay: pay,
+            experience: count.toString(),
+            agesBaby: age.map((item: any) => {
+              console.log(item)
+              if (item.select === null || item.select === undefined || Object.keys(item).length === 0) {
+                return false
+              }
+              return item.select
+            } ),
+            duties: [...duties],
+            advantages: [...duties],
+            charts: chart,
+            occupancy: occupation,
+            isValidated: true,
+            audioFile: pathAudio,
+            educationFile: pathEducation,
+          },
+          user: {
+            email: email,
+            fullName: name,
+            age: ageBabysitter ,
+            residency: location,
+            userAvatar: pathAvatar,
+          }
+        }
+
+        console.log(result)
+
+        await editData(user.id, result);
 
       console.log('Submitted:', text);
       stage.setStage('final');
@@ -85,9 +134,9 @@ const ProfileEditElevenStage = () => {
             </span>
             <TextEditor OnChangeText={setAbout} valueText={about} control={control} name='about' description={<>
                 Ваши хобби и ценности ... <br />
-Почему вы выбрали профессию няни и что вам в ней нравится? <br />
-Какие игры, занятия или методики развития вы обычно предлагаете детям?
-                </>} />
+                Почему вы выбрали профессию няни и что вам в ней нравится? <br />
+                Какие игры, занятия или методики развития вы обычно предлагаете детям?
+              </>} />
 
             {errorsText !== '' && (
               <p className="font-[onest] text-red-600 text-sm mt-1">{errorsText}</p>
@@ -97,7 +146,9 @@ const ProfileEditElevenStage = () => {
             <span className='font-[onest] max-[768px]:hidden font-semibold text-[16px] leading-[26px] block mb-[16px]'>
                 Загрузить <br /> фотографию
             </span>
-            <FileUploadBox title='Загрузите фотографию' types='JPEG, PNG' className={'!min-h-[130px]'} text={<>
+            <FileUploadBox onUpload={(path: string) => {
+              setAvatar(path)
+            }} className={'!min-h-[130px]'} text={<>
               Перетяните или <br /> <span className="text-[#431DED]">загрузите</span> файлы
 
             </>} description='JPEG, PNG, PDF'/>
@@ -106,9 +157,10 @@ const ProfileEditElevenStage = () => {
             <span className='font-[onest] max-[768px]:hidden font-semibold text-[16px] leading-[26px] block mb-[16px]'>
                 Загрузите голосовое <br /> или видео о себе 
             </span>
-            <FileUploadBox title='Загрузите голосовое или видео о себе ' types='MP3, MP4, WAV, OGG' className={'!min-h-[130px]'} text={<>
+            <FileUploadBox onUpload={(path: string) => {
+              setAudio(path)
+            }}  className={'!min-h-[130px]'} text={<>
               Перетяните или <br /> <span className="text-[#431DED]">загрузите</span> файлы
-
             </>} description='JPEG, PNG, PDF'/>
         </div>
       </div>

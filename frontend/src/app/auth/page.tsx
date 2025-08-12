@@ -5,7 +5,7 @@ import React from 'react'
 const Auth = () => {
   return (
     <>
-        <AuthPage without_sub={true} />
+      <AuthPage without_sub={true} />
     </>
   )
 }

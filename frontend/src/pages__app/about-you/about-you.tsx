@@ -8,6 +8,7 @@ import React, { useEffect } from 'react'
 import styles from './response.module.scss';
 import Popup from '@/widgets/Popup/Popup'
 import { useHeader } from '@/entities/stores/useHeader'
+import { useAnketsParent } from '@/entities/stores/useAnketsParent'
 
 const AboutYouPage = () => {
     const router = useRouter();
@@ -128,7 +129,7 @@ const AboutYouPage = () => {
                         </span>
 
                         <div className='max-[1024px]:hidden mt-auto'>
-                            <Button type='button' style={{
+                            <Button onClick={() => router.push('/about-you/response')} type='button' style={{
                                 width: 'fit-content',
                                 paddingInline: '58px',
                                 marginTop: 'auto'

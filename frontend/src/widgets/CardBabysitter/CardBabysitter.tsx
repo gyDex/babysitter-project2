@@ -5,14 +5,19 @@ import styles from './CardBabysitter.module.scss'
 import AudioPlayer from '../AudioPlayer/AudioPlayer'
 import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { INannyItem } from '@/entities/types/INanny'
+import { getDate } from '@/features/getDate'
+import DOMPurify from 'dompurify';
 
 type Props = {
     isMessage?: boolean | string | undefined,
     isMoreBtn?: boolean,
     isResponseBtn?: boolean,
+
+    data: INannyItem,
 }
 
-const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isResponseBtn}) => {
+const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isResponseBtn, data}) => {
     const [showMore, setShowMore] = useState(false);
     const messageRef = useRef<HTMLParagraphElement>(null);
     const [, setIsMeasured] = useState(false);
@@ -31,6 +36,9 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
     const router = useRouter();
 
+    const sanitizedEducation = DOMPurify.sanitize(data?.education !== undefined ? data?.education : '');
+    const sanitizedAbout = DOMPurify.sanitize(data?.about ?? '');
+
     return (
         <div className={styles['card-babysit']}>
             <div className={styles['card-babysit__top-info-mobile']}>
@@ -40,7 +48,7 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
                 <span className={styles['card-babysit__words']}>
                     <span className={styles['card-babysit__word']}>
-                        Полная
+                        {data.occupancy === 'full' ? 'Полная' : 'Частичная'}
                     </span>
                     <span className={styles['card-babysit__word']}>
                         Без проживания
@@ -50,17 +58,26 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
             <div className={styles['card-babysit__top']}>
                 <div className={styles['card-babysit__avatar']}>
-                    <Image className={styles['card-babysit__avatar-image']} src={'/images/card-babysit/image.jpg'} 
-                    alt="heart" width={100} height={100} />
+                    <img
+                        className={styles['card-babysit__avatar-image']}
+                        src={
+                            data?.user?.userAvatar && data.user.userAvatar !== ''
+                            ? data.user.userAvatar
+                            : '/images/card-babysit/image.jpg'
+                        }
+                        alt="heart"
+                        width={100}
+                        height={100}
+                        />
                 </div>
 
                 <div className={styles['card-babysit__top-bottom']}>
                     <div className={styles['card-babysit__top-info']}>
                         <div className={styles['card-babysit__top-info-left']}>
-                            <h2 className={styles['card-babysit__name']}>Алиса К.</h2>
+                            <h2 className={styles['card-babysit__name']}>{data.user.fullName}</h2>
 
                             <address className={styles['card-babysit__address']}>
-                                Москва, Аэропорт
+                                {data.user.residency ?? 'Москва, Аэропорт'}
                             </address>
                         </div>
 
@@ -71,7 +88,7 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
                             <span className={styles['card-babysit__words']}>
                                 <span className={styles['card-babysit__word']}>
-                                    Полная
+                                    {data.occupancy === 'full' ? 'Полная' : 'Частичная'}
                                 </span>
                                 <span className={styles['card-babysit__word']}>
                                     Без проживания
@@ -82,11 +99,15 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
                     <div className={styles['card-babysit__top-labels_desk']}>
                         <div className={styles['card-babysit__top-label']}>
-                            Возраст: <b>30 лет</b>
+                            Возраст: <b>
+                                {data.user.age ? `${data.user.age} лет` : '30 лет'}
+                            </b>
                         </div>
 
                         <div className={styles['card-babysit__top-label']}>
-                            Опыт работы: <b>5 лет</b>
+                            Опыт работы: <b>
+                                {data.experience ? `${data.experience} лет` : '5 лет'}
+                            </b>
                         </div>
                     </div> 
                 </div>
@@ -94,11 +115,15 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
             </div>
             <div className={styles['card-babysit__top-labels_mob']}>
                 <div className={styles['card-babysit__top-label']}>
-                    Возраст: <b>30 лет</b>
+                    Возраст: <b>
+                        {data.age ?? '30 лет'}
+                    </b>
                 </div>
 
                 <div className={styles['card-babysit__top-label']}>
-                    Опыт работы: <b>5 лет</b>
+                    Опыт работы: <b>
+                        {data.experience ?? '5 лет'}
+                    </b>
                 </div>
             </div>
 
@@ -135,10 +160,18 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
             <p className={styles['card-babysit__description']}>
                 <b>Личные качества:</b>
-                Творческая, смелая, эмпатичная, умею мечтать и исполнять мечты, аналитическое и критическое мышление, эмоционально зрелая. Пробую, ошибаюсь, снова пробую, иду к своим целям и желаниям…
+                <div dangerouslySetInnerHTML={{__html: sanitizedAbout}}></div>
             </p>
 
-            <AudioPlayer  />
+            {
+                (data.audioFile !== undefined && data.audioFile !== null && data.audioFile !== '') ?
+                <AudioPlayer src={data?.audioFile as string}  />
+                : 
+                <div className='h-[62px]'>
+
+                </div>
+            }
+
 
             <span className={styles['card-babysit__text1']}>
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,13 +188,15 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
                 </svg>
 
                 
-                Образование: Педагогическое, психологическое
+                Образование: {data.education ? <div dangerouslySetInnerHTML={{__html: sanitizedEducation}} /> : '5 лет'}
             </span>
 
             <div className={styles['card-babysit__date']}>
                 🕒 График: 
                     <b>
-                        Пн, Вт, Ср, Пт
+                        {                
+                        getDate(data.charts as any)
+                         ?? '5 лет'}
                     </b>
             </div>
 
@@ -174,7 +209,7 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
             {
                 isMoreBtn && 
-                <button onClick={() => router.push('/profile-parent/response')} className={styles['card-babysit__btn-more']}>
+                <button onClick={() => router.push(`/profile-parent/response/${data.id}`)} className={styles['card-babysit__btn-more']}>
                     Подробнее
                 </button>
             }

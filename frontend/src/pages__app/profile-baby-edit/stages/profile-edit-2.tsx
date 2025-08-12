@@ -33,7 +33,7 @@ const ProfileEditTwoStage = () => {
         <div className='flex items-center justify-center gap-[24px]'>
             <button onClick={() => 
             {
-              setCount(count + 1)
+              setCount(Number(count) + 1)
             }}>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="32" height="32" rx="8" fill="#E8E5F9"/>

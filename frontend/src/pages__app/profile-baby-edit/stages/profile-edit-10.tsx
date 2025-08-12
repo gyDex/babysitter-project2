@@ -91,7 +91,7 @@ const ProfileEditTenStage = () => {
             <span className='font-semibold text-[16px] leading-[26px] block mb-[16px]'>
                 Прикрепите документы, подтверждающие образование
             </span>
-            <FileUploadBox title='Загрузите фотографию' types='JPEG, PNG' text={<>
+            <FileUploadBox    text={<>
               Перетяните или <span className="text-[#431DED]">загрузите</span> файлы
 
             </>} description='JPEG, PNG, PDF'/>

@@ -50,7 +50,9 @@ const ProfileEditDataStage = () => {
         </div>
 
         <div className='w-full min-[768px]:max-w-[518px]'>
-          <FileUploadBox className='min-h-[117px]' description='JPEG, PNG' title='Загрузите фотографию' types='JPEG, PNG' text={<>
+          <FileUploadBox onUpload={(path: any) => {
+              console.log(path)
+            }} className='min-h-[117px]' description='JPEG, PNG'  text={<>
               Перетяните или <span className="text-[#431DED]">загрузите</span> файлы
 
             </>}/>

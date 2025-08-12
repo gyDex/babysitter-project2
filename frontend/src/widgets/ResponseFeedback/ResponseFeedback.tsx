@@ -2,28 +2,73 @@ import Image from 'next/image'
 import styles from './ResponseFeedback.module.scss'
 import { useMobileState } from '@/entities/stores/useMobileModal'
 import Button from '@/shared/compontents/Button'
+import { occupation_data } from '@/entities/consts/occupation'
+import { getDate } from './../../features/getDate'
+import { useParams, useRouter } from 'next/navigation'
+import { useAnketsParent } from '@/entities/stores/useAnketsParent'
+import { updateAddInfo } from '@/shared/api/parentApi'
+import { useAuth } from '@/entities/stores/useAuth'
+import { useAnketsBabysitter } from '@/entities/stores/useAnketsBabysitter'
+import { respond } from '@/shared/api/nannyApi'
+import React from 'react'
 
 type Props = {
     name: string,
-    person: string,
+    person?: string,
     quote: any,
+    city?: string,
     tasks?: any,
     isRes?: boolean,
     isEdit?: boolean,
     isDetail?: boolean,
     IsRes?: boolean,
     verified?: boolean,
+    childrens: [],
+    occupation: boolean[],
+    charts?: boolean[],
+    isViewName?: boolean;
+    date?: string,
+
+    link?: string | boolean,
+    linkEdit?: string | boolean,
+    callbackEdit?: () => void;
+
+    isMessage?: boolean,    
+    isDetailParent?: boolean,    
 }
 
-const ResponseFeedback:React.FC<Props> = ({IsRes=false, verified = true, isEdit = false,isDetail = false, isRes = true ,person, quote, tasks, name}) => {
+const ResponseFeedback:React.FC<Props> = ({isDetailParent,isViewName, city, link, callbackEdit, date, isMessage, childrens,occupation, charts, IsRes=false, verified = true, isEdit = false,isDetail = false, isRes = true ,person, quote, tasks, name}) => {
     const modalState = useMobileState();
 
+    const router = useRouter();
+
+    const { addInfo, setAddInfo } = useAnketsParent();
+
+    const { message, setMessage } = useAnketsBabysitter();
+
+    const { id } = useParams();
+
+    const { user }  = useAuth();
+
+    console.log(user)
+
   return (
-    <div className={styles['response-feedback']}>
+    <div onClick={() => {
+        if (link && user.roles[0] === 'PARENT') {
+            router.push(`/profile-parent/vacancy/${link}`)
+        }
+        // if (link && user.roles[0] === 'NANNY') {
+        //     router.push(`/profile-babysitter/vacancy-detail/${link}`)
+        // }
+    }}
+    style={{
+        cursor: link ? 'pointer' : 'default'
+    }}
+    className={styles['response-feedback']}>
         <div className={styles['response-feedback__top-info-mobile']}>
             <div className={styles['response-feedback__top-label-left']}>
                 <div className={styles['response-feedback__top-info-label_city']}>
-                    📍Москва
+                    📍 {city}
                 </div>
 
                 <div className={styles['response-feedback__top-info-label']}>
@@ -42,25 +87,35 @@ const ResponseFeedback:React.FC<Props> = ({IsRes=false, verified = true, isEdit 
         </div>
 
         <div className={styles['response-feedback__top']}>
-            <div className={styles['response-feedback__avatar']}>
-                <Image className={styles['response-feedback__avatar-image']} src={'/images/babysit-benefits/avatar.png'} 
-                alt="heart" width={64} height={64} quality={100} />
-            </div>
+            {
+                isViewName &&
+                <div className={styles['response-feedback__avatar']}>
+                    <Image className={styles['response-feedback__avatar-image']} src={'/images/babysit-benefits/avatar.png'} 
+                    alt="heart" width={64} height={64} quality={100} />
+                </div>
+            }
 
             <div className={styles['response-feedback__top-bottom']}>
                 <div className={styles['response-feedback__top-info']}>
                     <div className={styles['response-feedback__top-info-left']}>
-                        <h2 className={styles['response-feedback__name']}>{name}</h2>
+                        {
+                            !isViewName && <h2 className={styles['response-feedback__name']}>Вакансия от {date}</h2>
+                        }
+                        {
+                            isViewName && <>
+                                <h2 className={styles['response-feedback__name']}>{name}</h2>
 
-                        <address className={styles['response-feedback__address']}>
-                            {person}
-                        </address>
+                                <address className={styles['response-feedback__address']}>
+                                    {person}
+                                </address>
+                            </>
+                        }
                     </div>
 
                     <div className={styles['response-feedback__top-info-right']}>
                         <div className={styles['response-feedback__top-info-labels']}>
                             <div className={styles['response-feedback__top-info-label_city']}>
-                                📍Москва
+                                📍 {city}
                             </div>
 
                             <div className={styles['response-feedback__top-info-label']}>
@@ -81,13 +136,17 @@ const ResponseFeedback:React.FC<Props> = ({IsRes=false, verified = true, isEdit 
             </div>
 
         </div>
-        <div className={styles['response-feedback__top-labels']}>
-            <div className={styles['response-feedback__top-label']}>
-                <b>Мальчик, 4 года</b>
-            </div>
+        <div className={styles['response-feedback__top-labels']}>{
+                (childrens !== undefined && childrens !== null) && 
+                    childrens.map((item: any, index: number) => <React.Fragment key={index}>
+                        <div key={index} className={styles['response-feedback__top-label']}>
+                            <b>{item.gender === 'male' ? 'Мальчик' : 'Девочка'}, {item.age} года</b>
+                        </div>
+                    </React.Fragment>) 
+            }
 
             <div className={styles['response-feedback__top-label']}>
-                Будни, 9:00 – 13:00
+                {getDate(charts as any)}
             </div>
         </div>
 
@@ -96,85 +155,98 @@ const ResponseFeedback:React.FC<Props> = ({IsRes=false, verified = true, isEdit 
         </p>
 
         <div className={styles['response-feedback__labels']}>
-            <div className={styles['response-feedback__label']}>
-                🌳 Прогулки на свежем воздухе
-            </div>
-
-            <div className={styles['response-feedback__label']}>
-                📖 Чтение книг
-            </div>
-
-            <div className={styles['response-feedback__label']}>
-                🎨 Рисование и лепка
-            </div>
-
-            <div className={styles['response-feedback__label']}>
-                😴 Укладывание на дневной сон
-            </div>
+            {
+                (occupation !== undefined && occupation !== null) && 
+                occupation.map((item: any, index) => <React.Fragment key={item.id}>
+                    {
+                        item === true &&
+                        <div className={styles['response-feedback__label']}>
+                            {occupation_data[index].name}
+                        </div>
+                    }
+                </React.Fragment>) 
+            }
         </div>
         
         <div className={styles['response-feedback__bottom']}>
-            <div>
-                <p className={styles['response-feedback__subtitle']}>
-                    <b>Задачи няни:</b>
-                </p>
+            <div className='flex justify-between w-full'>
+                <div>
+                    <p className={styles['response-feedback__subtitle']}>
+                        <b>Задачи няни:</b>
+                    </p>
 
-                <p className={styles['response-feedback__text']}>{tasks}</p>
+                    <p className={styles['response-feedback__text']}>{tasks}</p>
 
-                <span className={styles['response-feedback__quote']}>
-                    {quote}
-                </span>
+                    <span className={styles['response-feedback__quote']}>
+                        {quote}
+                    </span>
+                </div>
+                
+                {
+                    isRes && verified && <button onClick={async() => {
+                        if (link && user.roles[0] === 'NANNY') {
+                        router.push(`/profile-babysitter/vacancy-detail/${link}`)
+                    }
+                        // await respond(id as string, message);
+                    }} className={styles['response-feedback__bottom-btn']}>
+                        Откликнуться
+                    </button>
+                }
             </div>
 
             {
-                (isDetail) && 
+                (isDetailParent) && 
                 <div>
                     <p className={styles['response-feedback__subtitle']}>
                         <b>Дополнительно от мамы:</b>
                     </p>
 
                     <p className={styles['response-feedback__text']}>
-                        «Мы ищем няню, которая сможет стать для Марка другом и наставником. Очень ценим доброту, терпение и искреннюю любовь к детям. Хотелось бы, чтобы няня помогала развивать любознательность, играла в развивающие игры, читала книги и проводила время на свежем воздухе.
-                    </p>
-
-                    <p className={styles['response-feedback__text']}>
-                        Мы готовы создать комфортные условия для работы, всегда открыты к диалогу и учитываем пожелания няни. У нас спокойная семья без конфликтов, верим, что уважение и понимание — основа хороших отношений.
-                    </p>
-
-                    <p className={styles['response-feedback__text']}>
-                        Будем рады сотрудничеству с профессионалом, который полюбит нашего сына и сможет поддержать его в процессе взросления.»
+                        {
+                            addInfo
+                        }
                     </p>
                 </div>
             }
 
-            {
-                isRes && verified &&<button onClick={() => {
-                    modalState.setRegister(true, '')
-                }} className={styles['response-feedback__bottom-btn']}>
-                    Откликнуться
-                </button>
-            }
+
 
             {
                 (isDetail && verified) &&
                 <div className={styles['response-feedback__detail']}>
-                    <span className={styles['response-feedback__bottom-title']}>Напишите дополнительную информацию</span>
+                    <span  className={styles['response-feedback__bottom-title']}>Напишите дополнительную информацию</span>
 
-                    <textarea className={styles['response-feedback__textarea']} name="message" id="message" placeholder='Напишите сопроводительное письмо, рассказ' />
+                    <textarea value={addInfo} onChange={(e) => setAddInfo(e.currentTarget.value)} className={styles['response-feedback__textarea']} name="message" id="message" placeholder='Напишите дополнительную информацию' />
+                </div>
+            }
+
+            
+            {
+                (isMessage && verified) &&
+                <div className={styles['response-feedback__detail']}>
+                    <span  className={styles['response-feedback__bottom-title']}>Напишите сопроводительное письмо</span>
+
+                    <textarea value={message} onChange={(e) => setMessage(e.currentTarget.value)} className={styles['response-feedback__textarea']} name="message" id="message" placeholder='Напишите сопроводительное письмо, рассказ' />
                 </div>
             }
 
             {
                 IsRes && verified && <>
                     <div className='flex gap-[12px] mt-[16px] max-[768px]:flex-col min-[768px]:max-w-[100px]'>
-                        <Button text='Откликнуться' style={{
+                        <Button onClick={async() => {
+                            await respond(user.nannyProfile.id, id as string, message);
+                            router.push(`/profile-babysitter/vacancy`)
+                        }}  text='Откликнуться' style={{
                             minHeight: '48px',
                             fontSize: '18px',
                             height: 'fit-content',
                             marginTop: '0px',
                             width: '100%',
                         }} type='button' variation='second' heart={false}/> 
-                        <Button text='Отклик без письма' style={{
+                        <Button onClick={async() => {
+                            await respond(user.nannyProfile.id, id as string, null);
+                            router.push(`/profile-babysitter/vacancy`)
+                        }}  text='Отклик без письма' style={{
                             minHeight: '48px',
                             fontSize: '18px',
                             height: 'fit-content',
@@ -188,8 +260,9 @@ const ResponseFeedback:React.FC<Props> = ({IsRes=false, verified = true, isEdit 
 
             <div className={styles['response-feedback__detail-buttons']}>
                 {
-                    (isEdit || isDetail && verified) && !IsRes &&<button onClick={() => {
+                    (isEdit || isDetail) && !IsRes &&<button onClick={() => {
                         modalState.setRegister(true, '')
+                        callbackEdit?.();
                     }}
                     style={{
                         marginTop: isDetail ? '0px' : '12px',
@@ -200,9 +273,15 @@ const ResponseFeedback:React.FC<Props> = ({IsRes=false, verified = true, isEdit 
                 }
 
                 {
-                    (isDetail && !IsRes && verified) &&
-                    <button onClick={() => {
-                        // modalState.setRegister(true, '')
+                    (isDetail && !IsRes) &&
+                    <button onClick={async() => {
+                        await updateAddInfo(id as string, {
+                            data: {
+                                addInfo: addInfo
+                            }
+                        })
+
+                        router.replace('/profile-parent/vacancy')
                     }} className={styles['response-feedback__bottom-btn_save']}>
                         Сохранить
                     </button>

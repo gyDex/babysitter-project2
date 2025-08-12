@@ -80,11 +80,11 @@ export const BabysitterPage = () => {
                                 onChange={() => setSelectedValue('baby')}
                             />
                             <RadioItem
-                                id="parent"
+                                id="PARENT"
                                 name="Я родитель, ищу няню"
                                 value="Я родитель, ищу няню"
-                                checked={selectedValue === 'parent'}
-                                onChange={() => setSelectedValue('parent')}
+                                checked={selectedValue === 'PARENT'}
+                                onChange={() => setSelectedValue('PARENT')}
                             />
                             </div>
                     </RadioGroup>
@@ -205,11 +205,11 @@ export const BabysitterPage = () => {
                             onChange={() => setSelectedValue('baby')}
                         />
                         <RadioItem
-                            id="parent"
+                            id="PARENT"
                             name="Я родитель, ищу няню"
                             value="Я родитель, ищу няню"
-                            checked={selectedValue === 'parent'}
-                            onChange={() => setSelectedValue('parent')}
+                            checked={selectedValue === 'PARENT'}
+                            onChange={() => setSelectedValue('PARENT')}
                         />
                         </div>
                 </RadioGroup>

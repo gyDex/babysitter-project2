@@ -11,7 +11,7 @@ datasource db {
 model User {
   id            String    @id @default(cuid())
   uuid          String    @unique @default(uuid())
-  email         String?    @unique 
+  email         String?    
   fullName      String?
   age           String?
   residency     String?
@@ -20,17 +20,16 @@ model User {
   createdAt     DateTime  @default(now())
   updateAt      DateTime?
 
-  isVerified  Boolean  @default(false)
+  isVerified    Boolean   @default(false)
 
-  phone         String    @unique
+  phone         String?   @unique
 
   roles         UserRole[]
 
-  // Relations
-  nannyProfile   NannyProfile?
-  parentProfile  ParentProfile?
+  nannyProfile  NannyProfile?
+  parentProfile ParentProfile?
 
-  otpCodes    OTPCode[]
+  otpCodes      OTPCode[]
 }
 
 model OTPCode {
@@ -49,9 +48,9 @@ enum UserRole {
 }
 
 model NannyProfile {
-  id          String   @id @default(cuid())
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String   @unique
+  id          String    @id @default(cuid())
+  user        User?     @relation(fields: [userId], references: [id])
+  userId      String?   @unique
 
   isValidated Boolean?  @default(false)
 
@@ -61,71 +60,110 @@ model NannyProfile {
   jobs        String?
   occupancy   String?
   experience  String?
-  agesBaby    String[]  @default([]) 
-  duties      Boolean[]  @default([])
-  advantages  Boolean[]  @default([])
+  agesBaby    Boolean[] @default([]) 
+  duties      Boolean[] @default([])
+  advantages  Boolean[] @default([])
   rating      String?
+  question    String?
+
+  isVisible   Boolean?  @default(false)
+
+  typePay     String?
+  pay         Int[]     @default([])
+
+  request     Request[]
+
+  responseId  String?   @unique
+  response    Response? @relation(fields: [responseId], references: [id])
+
+  // Files
+
+  educationFile String?
+  audioFile     String? 
+
+  personData    String[] @default([])
 }
 
+model Request {
+  id          String    @id @default(cuid())  
+
+  nanny        NannyProfile?     @relation(fields: [nannyId], references: [id])
+  nannyId      String    
+
+  parent  String
+  message String
+  createdAt DateTime @default(now())
+}
+
+
 model ParentProfile {
-  id          String   @id @default(cuid())
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String   @unique
+  id          String    @id @default(cuid())
+  user        User?     @relation(fields: [userId], references: [id])
+  userId      String    @unique
 
   subscribe   SubscribeParent?
-
   vacancy     Vacancy[]
 }
 
 model SubscribeParent {
-  id        String @id @default(cuid())
-  parentId  String   @unique
-  createdAt DateTime @default(now())
+  id        String         @id @default(cuid())
+  parentId  String         @unique
+  createdAt DateTime       @default(now())
   expiresAt DateTime
-  parent    ParentProfile @relation(fields: [parentId], references: [id])
+  parent    ParentProfile  @relation(fields: [parentId], references: [id])
 }
 
 model Vacancy {
-  id        String          @id @default(cuid())
-  parentId  String         
-  parent    ParentProfile   @relation(fields: [parentId], references: [id])
+  id          String         @id @default(cuid())
+  parentId    String
+  parent      ParentProfile  @relation(fields: [parentId], references: [id])
 
-  createdAt DateTime         @default(now())
+  createdAt   DateTime?      @default(now())
 
-  childrens Children[]
+  childrens   Children[]
 
-  charts    Boolean[]
+  charts      Boolean[]      @default([])
+  description String?
+  occupation  Boolean[]      @default([])
+  duties      Boolean[]      @default([])
+  question    String?
+  request     String?
+  payType     String?
+  pay         String[]       @default([])
+  addInfo     String?
 
-  description String
-
-  occupation Boolean[]
-
-  duties     Boolean[]
-
-  question   String
-
-  request    String?
-
-  payType    String
-  pay        String[]     @default([])
-
-  addInfo    String?      
-
-  responses Response[]     
+  responses   Response[]
 }
 
 model Children {
-  id        String              @id @default(cuid())
-  vacId     String            
-  vacancy    Vacancy            @relation(fields: [vacId], references: [id])
+  id       String   @id @default(cuid())
+  vacId    String
+  vacancy  Vacancy  @relation(fields: [vacId], references: [id])
 
-  gender    String
-  age       String
+  gender   String
+  age      String
 }
 
 model Response {
-  id        String        @id @default(cuid())
-  vacancyId  String        @unique
+  id         String         @id @default(cuid())
+  vacancyId  String
 
-  vacancy   Vacancy       @relation(fields: [vacancyId], references: [id])
+  message    String?
+  
+  nanny      NannyProfile?  
+  vacancy    Vacancy        @relation(fields: [vacancyId], references: [id])
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  userId    String
+  amount    Decimal
+  status    OrderStatus @default(PENDING)
+  createdAt DateTime @default(now())
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
 }

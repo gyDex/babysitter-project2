@@ -1,10 +1,12 @@
 'use client';
 
-import { useAuth } from '@/entities/stores/useAuth';
 import styles from './PaymentStage.module.scss'
 import Button from '@/shared/compontents/Button';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
+import { subscribe } from '@/shared/api/parentApi';
+import { useAuth } from '@/entities/stores/useAuth';
+import { createOrder } from '@/shared/api/paymentApi';
 
 type Props = {
   without_sub: boolean,
@@ -12,9 +14,61 @@ type Props = {
 
 
 const PaymentStage:React.FC<Props> = ({without_sub}) => {
-    const authState = useAuth();
 
-    const route = useRouter();
+    const router = useRouter();
+
+    const { user } = useAuth() as any;
+
+    const [link, setLink] = useState('');
+
+    const getPaymentLink = async () => {
+        const response = await createOrder({
+            userId: user.id,
+            amount: 1900,
+        }).then((data: any) => {
+            setLink(data.paymentLink);
+        }) 
+    };
+
+    const handleClick = async() => {
+        try {
+            console.log(user)
+
+            const handlePay = async () => {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENV}/orders/create`, {
+                    method: 'POST',
+                    body: JSON.stringify({ userId: user.id, amount: 1900 }),
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                const data = await res.json();
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = data.payment_url;
+
+                ['merchant_id', 'order_id', 'amount', 'signature'].forEach((key) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+                });
+
+                document.body.appendChild(form);
+                form.submit();
+            };
+
+            handlePay();
+
+            // await subscribe();
+
+            console.log('click')
+            // router.push('/profile-parent/vacancy')
+        } catch (error) {
+            console.error('Ошибка при запросе кода:', error);
+        }
+    }
 
     return (
         <section className={styles['code-stage']}>
@@ -62,16 +116,25 @@ const PaymentStage:React.FC<Props> = ({without_sub}) => {
             </ul>
 
             <div className={styles['code-stage__bottom']}>
-                <Button onClick={() => {
-                    authState.setAuth(true);
-                    route.push('/parent')
-                }} style={{
+                <Button onClick={handleClick} style={{
                     marginTop: '0px',
                 }} text='Оплатить' variation='second' type='button' />
-                <button className={styles['code-stage__bottom-btn']}>
+
+                <button onClick={() => {
+                    router.push('/profile-parent/base-data')
+                }} className={styles['code-stage__bottom-btn']}>
                     Посмотреть базу нянь
                 </button>
             </div>
+
+            <button onClick={getPaymentLink}>Получить ссылку на оплату</button>
+      {link && (
+        <p>
+          <a href={link} target="_blank" rel="noopener noreferrer">
+            Оплатить заказ
+          </a>
+        </p>
+      )}
         </section>
     )
 }

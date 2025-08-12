@@ -2,12 +2,12 @@
 
 import Image from 'next/image'
 import styles from './Button.module.scss'
-import { CSSProperties, useState } from 'react'
+import React, { CSSProperties, useState } from 'react'
 
 type Props = {
   type: 'submit' | 'button',
   variation?: 'second' | 'three' | 'four' | 'five',
-  text: string,
+  text: string | React.ReactNode,
   onClick?: any,
   style?: CSSProperties,
   heart?: boolean,

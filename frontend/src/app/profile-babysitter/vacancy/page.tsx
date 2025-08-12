@@ -1,10 +1,10 @@
-import VacancyPage from '@/pages__app/vacancy/vacancy'
+import Nanny__Vacancy from '@/pages__app/nanny_vacancy/nanny_vacancy'
 import React from 'react'
 
 const Vacancy = () => {
   return (
     <div>
-      <VacancyPage  />
+      <Nanny__Vacancy  />
     </div>
   )
 }

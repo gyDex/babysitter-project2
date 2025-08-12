@@ -2,12 +2,16 @@ import styles from './profile-edit-stage.module.scss';
 import { useEditBabysitterStage } from "@/entities/stores/useEditBabysitterStage";
 import { useAnketsBabysitter } from "@/entities/stores/useAnketsBabysitter";
 import clsx from 'clsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const ProfileEditThreeStage = () => {
   const stage = useEditBabysitterStage();
 
+  const [errors, setErrors] = useState<string>();
+
   const { setAge, age } = useAnketsBabysitter();
+
+  const isValidate = age.some((item: any) => item.select === true)
 
     const ages = [
         {
@@ -33,16 +37,22 @@ const ProfileEditThreeStage = () => {
     ]
 
   useEffect( () => {
-    setAge(ages.map((item) => {
+    setAge(ages.map((item, index) => {
       return {
-        name: item.name,
-        id: item.id,
-        select: false
+        select: age[index].select
       }
     }))
   },[]) 
 
-  console.log(age)
+  function handleSubmit() {
+      setErrors('')
+      if (age.some((item: any) => item.select === true)) {
+        stage.setStage('five')
+        return;
+      }
+
+      setErrors('Пожалуйста, выберите один из вариантов')
+  }
 
   return (
     <div className={styles['profile-edit-stage']}>
@@ -80,7 +90,7 @@ const ProfileEditThreeStage = () => {
 
                     if (age[index].select !== true) {
                         prev[index] = {
-                          ...prev[index],
+                          // ...prev[index],
                           select: true,
                         };
                         setAge(prev)
@@ -88,7 +98,7 @@ const ProfileEditThreeStage = () => {
                     }
 
                     prev[index] = {
-                      ...prev[index],
+                      // ...prev[index],
                       select: false,
                     };
                     setAge(prev)
@@ -96,9 +106,17 @@ const ProfileEditThreeStage = () => {
                     {item.name}
                 </button>
             </>)
+            
         }
 
+
       </div>
+      {
+        !isValidate  && (
+          <span className="text-[red] text-sm mt-[16px] block">
+          {errors}
+          </span>
+      )}
 
       <div className={styles['profile-edit-stage__bottom']}>
         <button onClick={() => stage.setStage('three')} className={styles['profile-edit-stage__btn-bottom_prev']}>
@@ -110,7 +128,7 @@ const ProfileEditThreeStage = () => {
           Назад
         </button>
 
-        <button onClick={() => stage.setStage('five')} className={styles['profile-edit-stage__btn-bottom']}>
+        <button onClick={handleSubmit} className={styles['profile-edit-stage__btn-bottom']}>
           Продолжить
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.61935 3.95312L13.666 7.99979L9.61935 12.0465" stroke="#431DED" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>

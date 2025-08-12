@@ -292,7 +292,7 @@ const ResponsePage = () => {
 
                   <div className='h-[239px] w-[177px] relative'>
                       <div className='absolute bottom-0 right-[20px] w-full h-[284px]'>
-                          <VideoPlayer height='' videoUrl="/images/video-block/video.mp4" />
+                          <VideoPlayer height='' videoUrl={"https://rccsowmhkwlvmka0.public.blob.vercel-storage.com/copy_F24C0F8F-C720-4A57-BE2D-B9E04C27AA98.mp4"} />
                       </div>
                   </div>
 

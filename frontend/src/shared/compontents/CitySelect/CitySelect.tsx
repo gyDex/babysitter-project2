@@ -8,7 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { setCityCookies } from "@/features/setCityCookies";
+import { changeCity } from "@/shared/api/parentApi";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
@@ -26,10 +27,12 @@ export const CitySelect:React.FC<Props> = ({items, title}) => {
 
   const [isOpen, setOpen] = useState(false) as any;    
 
+  const router = useRouter()
+
   return (
-    <Select  open={isOpen} onValueChange={(e) => {
-        setCityCookies('city', e) 
-        console.log(e)
+    <Select  open={isOpen} onValueChange={async(e) => {
+        await changeCity(e);
+        window.location.reload()
     }} onOpenChange={() => setOpen((prev: boolean) => !prev)}>
         <SelectTrigger   className="border-none p-[0px] !text-[white]">
             <SelectValue className="!text-[white]" placeholder={title} />

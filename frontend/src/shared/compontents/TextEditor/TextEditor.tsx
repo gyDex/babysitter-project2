@@ -1,5 +1,5 @@
 'use client';
-
+import { stateToHTML } from 'draft-js-export-html';
 import React from 'react';
 import { ContentState, convertFromHTML, Editor, EditorState, RichUtils } from 'draft-js';
 import 'draft-js/dist/Draft.css';
@@ -65,8 +65,9 @@ const TextEditor: React.FC<Props> = ({ name, control, placeholder, valueText, On
 
       const handleChange = (state: EditorState) => {
         setEditorState(state);
-        const plainText = state.getCurrentContent().getPlainText();
-        OnChangeText(plainText);
+        const contentState = state.getCurrentContent();
+        const html = stateToHTML(contentState);
+        OnChangeText(html);
       };
 
         return (

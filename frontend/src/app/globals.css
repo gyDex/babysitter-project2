@@ -3,6 +3,22 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.audio-player__waveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  width: 200px; 
+  margin: 0 12px;
+}
+
+.audio-player__waveform-bar {
+  width: 4px;
+  border-radius: 2px;
+  transition: background-color 0.3s;
+  user-select: none;
+}
+
+
 .select {
     font-family: Onest ;
     font-weight: 600 ;

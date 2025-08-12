@@ -2,18 +2,35 @@
 
 import ResponseFeedback from '@/widgets/ResponseFeedback/ResponseFeedback'
 import styles from './vacancy-detail.module.scss';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useHeader } from '@/entities/stores/useHeader';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import HeaderMenu from '@/widgets/HeaderMenu/HeaderMenu';
+import { getVacancyById } from '@/shared/api/parentApi';
+import { useAnketsParent } from '@/entities/stores/useAnketsParent';
 
 const VacancyDetail = () => {
     const router = useRouter();
 
     const headerState = useHeader();
+
+    const [vacancy, setVacancy] = useState(null) as any;
+
+    const { setAddInfo } = useAnketsParent();
+
+    const { id } = useParams();
     
     useEffect(() => {
         headerState.setTransparent(false);
+
+        const getData = async() => {
+            await getVacancyById(id as any).then((data: any) => {
+                setVacancy(data)
+                setAddInfo(data.addInfo)
+            })
+        }
+
+        getData();
     }, [])
 
     return (
@@ -29,9 +46,37 @@ const VacancyDetail = () => {
                         </svg>
 
                         <span>Вернуться к вакансиям</span>
-                    </button>   
+                    </button> 
 
-                    <ResponseFeedback isEdit isDetail isRes={false} tasks={'Обеспечить безопасность, общение без гаджетов, мягкое вовлечение в игры.'} quote='Мы долго искали няню, которая найдёт подход к нашему очень активному сыну. Анна оказалась настоящей находкой! Не просто следит, а развивает, играет, вовлекает. Ребёнок каждый раз ждёт её как праздник.' name="Анна" person="мама Марка" />
+                    {
+                        (vacancy === null || vacancy === undefined)  &&
+                            <div className={'min-h-[512px] bg-[white] w-full rounded-[16px] flex flex-col justify-center items-center'}>
+                                <span className={'font-[onest] font-semibold text-[18px] max-[768px]:px-[16px] min-[768px]:text-[28px] text-center'}>
+                                    Загрузка...
+                                </span>
+                            </div>
+                    }  
+
+                    {
+                        vacancy !== undefined && vacancy !== null && 
+                        <ResponseFeedback 
+                            isEdit 
+                            isDetail
+                            isDetailParent    
+                            isRes={false} 
+                            city={vacancy.parent.user.residency}                           
+                            childrens={vacancy.childrens} 
+                            charts={vacancy.charts}
+                            occupation={vacancy.occupation}
+                            quote={vacancy.description} 
+                            name={vacancy.parent.user.fullName}
+                            isViewName={true}
+                            linkEdit={id as any}
+                            callbackEdit={() => {
+                                router.replace(`/profile-parent/edit/${id}`)
+                            }}
+                        />
+                    }
                 </div>
             </div>
         </>

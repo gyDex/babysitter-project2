@@ -44,12 +44,16 @@ export class AuthService {
                     ...(role === 'PARENT'
                     ? {
                         parentProfile: {
-                            create: {},
+                            create: {
+                                
+                            },
                         },
                         }
                     : {
                         nannyProfile: {
-                            create: {},
+                            create: {
+                                isValidated: false,
+                            },
                         },
                         }),
                 },

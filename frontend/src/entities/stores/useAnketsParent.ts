@@ -13,6 +13,7 @@ interface AnketParent {
     question: string,
 
     typePay: string,
+    addInfo: string,
 
     setEmail: (email: string) => void;
     setName: (name: string) => void;
@@ -27,6 +28,10 @@ interface AnketParent {
     setQuestions: (question: any) => void;
     changeCalendar: (calendar: any) => void;
     setTypePay: (pay: string) => void;
+
+    setAddInfo: (data: any) => void;
+    
+    setData: (data: any) => void;
 } 
 
 export const useAnketsParent = create<AnketParent>((set) => ({
@@ -40,10 +45,11 @@ export const useAnketsParent = create<AnketParent>((set) => ({
     location: '',
     description: '',
     duties: new Array(14).fill(false), 
-    occupation: [],
+    occupation: [false, false, false, false, false, false],
     chart: '',
     calendar: '',
     typePay: '',
+    addInfo: '',
 
     addChildren: (child) => set((state) => ({ children: [...state.children,child] })),
     changeChildren: (updatedChild, index) => set((state) => ({ children: state.children.map((child: any, i: any) =>
@@ -60,5 +66,22 @@ export const useAnketsParent = create<AnketParent>((set) => ({
     setChart: (chart) => set({ chart }),
 
     changeCalendar: (calendar) => set({ calendar }),
+    
+    setAddInfo: (addInfo) => set({ addInfo: addInfo }),
+
     setTypePay: (pay) => set({ typePay: pay }),
+
+    setData: (data) => set({ 
+        description: data.description,
+        question: data.question,
+        occupation: data.occupation,
+        chart: data.charts,
+        calendar: data.charts,
+        duties: data.duties,
+        children: data.childrens,
+        email: data.parent.user.email,
+        name: data.parent.user.fullName,
+        location: data.parent.user.residency,
+        typePay: data.payType,
+     }),
 }));

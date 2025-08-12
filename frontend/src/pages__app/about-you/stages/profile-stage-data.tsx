@@ -1,3 +1,4 @@
+import { useAnketsBabysitter } from '@/entities/stores/useAnketsBabysitter';
 import styles from './profile-edit-stage.module.scss';
 import { useEditBabysitterStage } from "@/entities/stores/useEditBabysitterStage";
 import { useMobileState } from '@/entities/stores/useMobileModal';
@@ -6,6 +7,10 @@ import FileUploadBox from '@/shared/compontents/FileUploadBox';
 const ProfileEditElevenStage = () => {
   const stage = useEditBabysitterStage();
   const mobileState = useMobileState();
+
+  const { 
+    setAudio, setAvatar,
+  } = useAnketsBabysitter();
 
   return (
     <div className={styles['profile-edit-stage']}>
@@ -42,7 +47,9 @@ const ProfileEditElevenStage = () => {
             <span className='font-[onest] max-[768px]:hidden font-semibold text-[16px] leading-[26px] block mb-[16px]'>
                 Загрузить <br /> фотографию
             </span>
-            <FileUploadBox title='Загрузите фотографию' types='JPEG, PNG' className={'!min-h-[130px]'} text={<>
+            <FileUploadBox  onUpload={(path: string) => {
+              setAvatar(path)
+            }}  className={'!min-h-[130px]'} text={<>
               Перетяните или <br /> <span className="text-[#431DED]">загрузите</span> файлы
 
             </>} description='JPEG, PNG, PDF'/>
@@ -51,7 +58,9 @@ const ProfileEditElevenStage = () => {
             <span className='font-[onest] max-[768px]:hidden font-semibold text-[16px] leading-[26px] block mb-[16px]'>
                 Загрузите голосовое <br /> или видео о себе 
             </span>
-            <FileUploadBox title='Загрузите голосовое или видео о себе ' types='MP3, MP4, WAV, OGG' className={'!min-h-[130px]'} text={<>
+            <FileUploadBox   onUpload={(path: string) => {
+              setAudio(path)
+            }}   className={'!min-h-[130px]'} text={<>
               Перетяните или <br /> <span className="text-[#431DED]">загрузите</span> файлы
 
             </>} description='JPEG, PNG, PDF'/>
