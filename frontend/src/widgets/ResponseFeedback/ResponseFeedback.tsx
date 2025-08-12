@@ -13,9 +13,9 @@ import { respond } from '@/shared/api/nannyApi'
 import React from 'react'
 
 type Props = {
-    name: string,
+    name?: string,
     person?: string,
-    quote: any,
+    quote?: any,
     city?: string,
     tasks?: any,
     isRes?: boolean,
@@ -23,7 +23,7 @@ type Props = {
     isDetail?: boolean,
     IsRes?: boolean,
     verified?: boolean,
-    childrens: [],
+    childrens?: [],
     occupation: boolean[],
     charts?: boolean[],
     isViewName?: boolean;

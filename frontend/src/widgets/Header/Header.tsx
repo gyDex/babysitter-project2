@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { useHeader } from '@/entities/stores/useHeader';
 import { useAuth } from '@/entities/stores/useAuth';
 import { usePathname, useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { cities } from '@/entities/cities';
 import { CitySelect } from '@/shared/compontents/CitySelect/CitySelect';
@@ -20,12 +18,6 @@ const Header = () => {
     const route = useRouter();
 
     const pathName = usePathname();
-
-    const [city, setCity] = useState<string | undefined>()
-
-    useEffect(() => {
-        setCity(Cookies.get('city'))
-    }, [])
 
     return (
         <div className={styles.header}>

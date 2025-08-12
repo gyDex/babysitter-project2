@@ -8,15 +8,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { values } from "lodash";
 import { useState } from "react";
 
 
 type Props = {
-  items: Item[],
-  title: string | undefined,
-  onChange: (e: any) => void,
-  value: string,
+  items?: Item[],
+  title?: string | undefined,
+  onChange?: (e: any) => void,
+  value?: string,
 }
 
 type Item = {
@@ -47,7 +46,7 @@ export const CustomSelect:React.FC<Props> = ({items, title, value, onChange}) =>
       <SelectContent className="select min-w-[214px] border-[#7C8092] border-[1px] rounded-[16px]">
         <SelectGroup>
           {
-              items.map((item, i) => <>
+            items && items !== null && items.length > 0 &&  items?.map((item, i) => <>
                   <SelectItem key={i} className="!text-[#7C8092]  bg-transparent focus-within:!bg-transparent hover:!bg-transparent flex justify-between items-center" value={item.id}>
                     {item.name}
                     

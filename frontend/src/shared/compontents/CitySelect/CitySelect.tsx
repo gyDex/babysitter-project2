@@ -9,7 +9,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { changeCity } from "@/shared/api/parentApi";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
@@ -26,8 +25,6 @@ type Item = {
 export const CitySelect:React.FC<Props> = ({items, title}) => {
 
   const [isOpen, setOpen] = useState(false) as any;    
-
-  const router = useRouter()
 
   return (
     <Select  open={isOpen} onValueChange={async(e) => {

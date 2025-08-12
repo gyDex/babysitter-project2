@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import styles from './CardBabysitter.module.scss'
 import AudioPlayer from '../AudioPlayer/AudioPlayer'
 import React, { useEffect, useRef, useState } from 'react'
@@ -14,7 +13,7 @@ type Props = {
     isMoreBtn?: boolean,
     isResponseBtn?: boolean,
 
-    data: INannyItem,
+    data?: INannyItem,
 }
 
 const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isResponseBtn, data}) => {
@@ -48,7 +47,7 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
                 <span className={styles['card-babysit__words']}>
                     <span className={styles['card-babysit__word']}>
-                        {data.occupancy === 'full' ? 'Полная' : 'Частичная'}
+                        {data?.occupancy === 'full' ? 'Полная' : 'Частичная'}
                     </span>
                     <span className={styles['card-babysit__word']}>
                         Без проживания
@@ -61,8 +60,8 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
                     <img
                         className={styles['card-babysit__avatar-image']}
                         src={
-                            data?.user?.userAvatar && data.user.userAvatar !== ''
-                            ? data.user.userAvatar
+                            data?.user?.userAvatar && data?.user.userAvatar !== ''
+                            ? data?.user.userAvatar
                             : '/images/card-babysit/image.jpg'
                         }
                         alt="heart"
@@ -74,10 +73,10 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
                 <div className={styles['card-babysit__top-bottom']}>
                     <div className={styles['card-babysit__top-info']}>
                         <div className={styles['card-babysit__top-info-left']}>
-                            <h2 className={styles['card-babysit__name']}>{data.user.fullName}</h2>
+                            <h2 className={styles['card-babysit__name']}>{data?.user.fullName}</h2>
 
                             <address className={styles['card-babysit__address']}>
-                                {data.user.residency ?? 'Москва, Аэропорт'}
+                                {data?.user.residency ?? 'Москва, Аэропорт'}
                             </address>
                         </div>
 
@@ -88,7 +87,7 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
                             <span className={styles['card-babysit__words']}>
                                 <span className={styles['card-babysit__word']}>
-                                    {data.occupancy === 'full' ? 'Полная' : 'Частичная'}
+                                    {data?.occupancy === 'full' ? 'Полная' : 'Частичная'}
                                 </span>
                                 <span className={styles['card-babysit__word']}>
                                     Без проживания
@@ -100,13 +99,13 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
                     <div className={styles['card-babysit__top-labels_desk']}>
                         <div className={styles['card-babysit__top-label']}>
                             Возраст: <b>
-                                {data.user.age ? `${data.user.age} лет` : '30 лет'}
+                                {data?.user.age ? `${data?.user.age} лет` : '30 лет'}
                             </b>
                         </div>
 
                         <div className={styles['card-babysit__top-label']}>
                             Опыт работы: <b>
-                                {data.experience ? `${data.experience} лет` : '5 лет'}
+                                {data?.experience ? `${data?.experience} лет` : '5 лет'}
                             </b>
                         </div>
                     </div> 
@@ -116,13 +115,13 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
             <div className={styles['card-babysit__top-labels_mob']}>
                 <div className={styles['card-babysit__top-label']}>
                     Возраст: <b>
-                        {data.age ?? '30 лет'}
+                        {data?.age ?? '30 лет'}
                     </b>
                 </div>
 
                 <div className={styles['card-babysit__top-label']}>
                     Опыт работы: <b>
-                        {data.experience ?? '5 лет'}
+                        {data?.experience ?? '5 лет'}
                     </b>
                 </div>
             </div>
@@ -164,7 +163,7 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
             </p>
 
             {
-                (data.audioFile !== undefined && data.audioFile !== null && data.audioFile !== '') ?
+                (data?.audioFile !== undefined && data?.audioFile !== null && data?.audioFile !== '') ?
                 <AudioPlayer src={data?.audioFile as string}  />
                 : 
                 <div className='h-[62px]'>
@@ -188,14 +187,14 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
                 </svg>
 
                 
-                Образование: {data.education ? <div dangerouslySetInnerHTML={{__html: sanitizedEducation}} /> : '5 лет'}
+                Образование: {data?.education ? <div dangerouslySetInnerHTML={{__html: sanitizedEducation}} /> : '5 лет'}
             </span>
 
             <div className={styles['card-babysit__date']}>
                 🕒 График: 
                     <b>
                         {                
-                        getDate(data.charts as any)
+                        getDate(data?.charts as any)
                          ?? '5 лет'}
                     </b>
             </div>
@@ -209,7 +208,7 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
 
             {
                 isMoreBtn && 
-                <button onClick={() => router.push(`/profile-parent/response/${data.id}`)} className={styles['card-babysit__btn-more']}>
+                <button onClick={() => router.push(`/profile-parent/response/${data?.id}`)} className={styles['card-babysit__btn-more']}>
                     Подробнее
                 </button>
             }

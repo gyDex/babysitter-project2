@@ -5,11 +5,8 @@ import ResponseFeedback from '@/widgets/ResponseFeedback/ResponseFeedback';
 import { useRouter } from 'next/navigation';
 import styles from './nanny_vacancy.module.scss';
 import { useEffect, useState } from 'react';
-import Button from '@/shared/compontents/Button';
 import HeaderMenu from '@/widgets/HeaderMenu/HeaderMenu';
 import { getAllVacancyByCity } from '@/shared/api/nannyApi';
-
-import Cookies from 'js-cookie'
 import { useAuth } from '@/entities/stores/useAuth';
 
 const Nanny__Vacancy = () => {

@@ -11,7 +11,7 @@ const AudioPlayer: React.FC<Props> = ({ src, onClick, isEdit }) => {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
+  const [, setDuration] = useState(0)
 
   useEffect(() => {
     const audio = audioRef.current

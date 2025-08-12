@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getMe } from "../api/authApi";
 import { useAuth } from "@/entities/stores/useAuth";
 import { setRoleCookies } from "@/features/setRoleCookie";

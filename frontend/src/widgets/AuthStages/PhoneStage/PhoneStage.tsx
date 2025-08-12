@@ -8,7 +8,6 @@ import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { requestCode } from '@/shared/api/authApi';
-import api from '@/shared/api';
 
 const schema = z.object({
   phone: z

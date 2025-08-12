@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import styles from './response.module.scss'
 import Button from '@/shared/compontents/Button'
 import AudioPlayer from '@/widgets/AudioPlayer/AudioPlayer'
@@ -84,8 +83,7 @@ const ResponsePage = () => {
       setVisible(!isVisible)
 
       try {
-
-        const res = await editData(user.id, {
+        await editData(user.id, {
           nanny: {
               isVisible: !isVisible,
           }
@@ -152,7 +150,7 @@ const ResponsePage = () => {
                     </div>
 
                     <div className='w-full min-[768px]:max-w-[518px] mr-[30px]'>
-                    <FileUploadBox className='min-h-[69px]' description='JPEG, PNG'  storeKey='person' text={<>
+                    <FileUploadBox className='min-h-[69px]' description='JPEG, PNG'  text={<>
                         Перетяните или <span className="text-[#431DED]">загрузите</span> файлы
 
                         </>}/>

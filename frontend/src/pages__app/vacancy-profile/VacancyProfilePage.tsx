@@ -14,7 +14,7 @@ type Props = {
 }
 
 const VacancyProfilePage:React.FC<Props> = ({empty = false}) => {
-    const [responses, setResponses] = useState([1]);
+    const [, setResponses] = useState([1]);
 
     const [vacancies, setVacancies] = useState<any[] | null>(null);
 

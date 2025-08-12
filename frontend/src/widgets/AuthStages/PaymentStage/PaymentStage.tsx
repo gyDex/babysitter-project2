@@ -4,7 +4,6 @@ import styles from './PaymentStage.module.scss'
 import Button from '@/shared/compontents/Button';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import { subscribe } from '@/shared/api/parentApi';
 import { useAuth } from '@/entities/stores/useAuth';
 import { createOrder } from '@/shared/api/paymentApi';
 
@@ -22,7 +21,7 @@ const PaymentStage:React.FC<Props> = ({without_sub}) => {
     const [link, setLink] = useState('');
 
     const getPaymentLink = async () => {
-        const response = await createOrder({
+        await createOrder({
             userId: user.id,
             amount: 1900,
         }).then((data: any) => {

@@ -33,7 +33,7 @@ const ProfileEditSixStageItem: React.FC<Props> = ({
   // sliderValue — в процентах 0..100
   const [sliderValue, setSliderValue] = useState<[number, number]>([0, 100]);
 
-  const { pay, setPay } = useAnketsBabysitter();
+  const {setPay } = useAnketsBabysitter();
 
 const toRealValue = (val: number) =>
   Math.round(maxSlider - (maxSlider - minSlider) * (val / 100));
@@ -79,10 +79,8 @@ const toRealValue = (val: number) =>
         value={sliderValue}
         onChange={(val: any) => {
           if (Array.isArray(val)) {
-            setSliderValue(val);
-            // Если хочешь, обновляй глобальный стор в процентах или в реальных числах
-            setPay(val.map((v) => toRealValue(v)));
-            console.log('Реальные значения:', val.map((v) => toRealValue(v)));
+            setSliderValue(val as any);
+            setPay(val.map((v) => toRealValue(v)) as any);
           }
         }}
         className={styles['profile-edit-stage__slider']}

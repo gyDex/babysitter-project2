@@ -9,7 +9,6 @@ import z from 'zod';
 import { verifyCode } from '@/shared/api/authApi';
 import { useAuth } from '@/entities/stores/useAuth';
 import api from '@/shared/api';
-import { useRouter } from 'next/navigation';
 
 const schema = z.object({
   code: z

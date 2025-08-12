@@ -14,8 +14,7 @@ type Props = {
   without_sub?: boolean,
 }
 
-
-const AuthPage:React.FC<Props> = ({without_sub = false}) => {
+const AuthPage:React.FC<Props> = ({}) => {
     const headerState = useHeader();
 
     const registerStage = useRegisterStage();

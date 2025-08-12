@@ -10,7 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { downloadFile, uploadFiles } from '@/shared/api/fileApi';
+import { uploadFiles } from '@/shared/api/fileApi';
 import { useAnketsBabysitter } from '@/entities/stores/useAnketsBabysitter';
 import { editData } from '@/shared/api/nannyApi';
 import { useAuth } from '@/entities/stores/useAuth';
@@ -79,9 +79,9 @@ const ProfileEditNineStage = () => {
     try {
       await editData(user.id, result);
 
-      if (personData[0]?.path) {
-        await downloadFile(personData[0].path);
-      }
+      // if (personData[0]?.path) {
+      //   await downloadFile(personData[0].path);
+      // }
 
       modalState.setOpen(true, 'accepted');
       stage.setStage('ten')

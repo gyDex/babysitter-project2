@@ -8,7 +8,7 @@ import React, { useEffect } from 'react'
 import styles from './response.module.scss';
 import Popup from '@/widgets/Popup/Popup'
 import { useHeader } from '@/entities/stores/useHeader'
-import { useAnketsParent } from '@/entities/stores/useAnketsParent'
+
 
 const AboutYouPage = () => {
     const router = useRouter();

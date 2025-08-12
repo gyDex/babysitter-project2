@@ -151,7 +151,7 @@ export const useAnketsBabysitter = create<AnketBabysitter>((set) => ({
 
     setData: (data) => set({
         about: data.nannyProfile.about,
-        age: data.nannyProfile.agesBaby.map((item: any, index: Number) => {
+        age: data.nannyProfile.agesBaby.map((item: any) => {
             return {
                 select: item
             }

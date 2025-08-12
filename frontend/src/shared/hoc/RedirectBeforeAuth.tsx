@@ -3,7 +3,6 @@
 import { useAuth } from "@/entities/stores/useAuth"
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react"
-    import Cookies from 'js-cookie'
 
 type Props = {
     children: React.ReactNode,
@@ -13,9 +12,6 @@ const RedirectBeforeAuth:React.FC<Props> = ({children}) => {
     const { isAuth, roleAuth, user } = useAuth();
 
     const router = useRouter();
-
-    console.log('auth')
-        console.log(user)
 
     useEffect(() => {
         if (isAuth && user !== null && user.roles[0] === 'PARENT') {

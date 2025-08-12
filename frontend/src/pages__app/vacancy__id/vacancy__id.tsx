@@ -9,14 +9,13 @@ import { useHeader } from '@/entities/stores/useHeader'
 import HeaderMenu from '@/widgets/HeaderMenu/HeaderMenu'
 import { useParams, useRouter } from 'next/navigation'
 import { getVacancyById } from '@/shared/api/parentApi'
-import { INannyItem } from '@/entities/types/INanny'
 
 type Props = {
   empty?: boolean
 }
 
 const VacancyID:React.FC<Props> = ({empty = false}) => {
-    const [responses, setResponses] = useState([1]);
+    const [, setResponses] = useState([1]);
 
     const [vacancy, setVacancy] = useState(null) as any;
 
@@ -108,7 +107,7 @@ const VacancyID:React.FC<Props> = ({empty = false}) => {
 
                                     <div className={styles['vacancy-profile__list']}>
                                       {
-                                          vacancy.responses.map((item: any) => <CardBabysitter isMoreBtn data={item.nanny} isMessage={item.message ?? false} />)
+                                          vacancy.responses.map((item: any) => <CardBabysitter key={item.id} isMoreBtn data={item.nanny} isMessage={item.message ?? false} />)
                                       }
                                     
                                     </div>
