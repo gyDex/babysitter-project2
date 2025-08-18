@@ -9,6 +9,7 @@ import CodeStage from "@/widgets/AuthStages/CodeStage/CodeStage";
 import { useRegisterStage } from "@/entities/stores/useRegisterStage";
 import PaymentStage from "@/widgets/AuthStages/PaymentStage/PaymentStage";
 import HeaderMenu from "@/widgets/HeaderMenu/HeaderMenu";
+import { useNotFound } from "@/entities/stores/useNotFound";
 
 type Props = {
   without_sub?: boolean,
@@ -18,9 +19,24 @@ const AuthPage:React.FC<Props> = ({}) => {
     const headerState = useHeader();
 
     const registerStage = useRegisterStage();
+
+    const { setNotFound }  = useNotFound();      
     
     useEffect(() => {
         headerState.setTransparent(true);
+
+        setNotFound(true);
+
+        function beforeUnload(e: BeforeUnloadEvent) {
+            e.preventDefault();
+            setNotFound(false);
+        }
+
+        window.addEventListener('beforeunload', beforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnload);
+        };
     },[])
 
     return (

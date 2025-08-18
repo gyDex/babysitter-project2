@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
-  const { role } = await request.json()
+  const { city } = await request.json()
 
   const response = NextResponse.json({ success: true })
 
-  response.cookies.set('city', role, {
+  response.cookies.set('city', city, {
     path: '/',
     httpOnly: false,                      
     sameSite: 'lax',

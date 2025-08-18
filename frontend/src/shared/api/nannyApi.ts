@@ -35,9 +35,15 @@ export const getSimNanny = async (id: string): Promise<any> => {
 };
 
 export const getAllNannyByCity = async (city: string): Promise<INannyItem[]> => {
+  console.log('city',city)
   const response = await api.get(`/users/nanny/city?city=${city}`);
   return response.data;
 };
+
+export const getAllReviews = async ():Promise<any[]> => {
+  const response = await api.get(`/users/nanny/reviews`);
+  return response.data;
+}
 
 export const getNannyById = async (id: string): Promise<any> => {
   const response = await api.get(`/users/nanny/${id}`);
@@ -50,6 +56,7 @@ export const getImage = async (id: string): Promise<any> => {
 };
 
 export const getAllVacancyByCity = async (city: string): Promise<string> => {
+  console.log(city)
   const response = await api.get(`/users/nanny/vacancy/city?city=${city}`);
   return response.data;
 };

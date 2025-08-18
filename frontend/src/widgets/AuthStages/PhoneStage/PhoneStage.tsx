@@ -28,10 +28,11 @@ const PhoneStage = () => {
         },
         handleSubmit,
         register,
+        setError
     } = useForm({
       resolver: zodResolver(schema),
       defaultValues: {
-        phone: ''
+        phone: authState?.phone
       },
     });
 
@@ -51,15 +52,15 @@ const PhoneStage = () => {
 
             <div className={styles['phone-stage__roles']}>
                 <button onClick={() => authState.setRole('PARENT')} className={clsx('', {
-                    [styles['phone-stage__role']]: authState.roleAuth === 'NANNY',
-                    [styles['phone-stage__role_active']]: authState.roleAuth === 'PARENT',
+                    [styles['phone-stage__role']]: authState.roleAuth === 'NANNY' || authState.roleAuth === 'baby',
+                    [styles['phone-stage__role_active']]: authState.roleAuth === 'PARENT' || authState.roleAuth === 'parent',
                 })}>
                     Я мама
                 </button>
 
                 <button onClick={() => authState.setRole('NANNY')} className={clsx('', {
-                    [styles['phone-stage__role']]: authState.roleAuth === 'PARENT',
-                    [styles['phone-stage__role_active']]: authState.roleAuth === 'NANNY',
+                    [styles['phone-stage__role']]: authState.roleAuth === 'PARENT' || authState.roleAuth === 'parent',
+                    [styles['phone-stage__role_active']]: authState.roleAuth === 'NANNY' || authState.roleAuth === 'baby',
                 })}>
                     Я няня
                 </button>

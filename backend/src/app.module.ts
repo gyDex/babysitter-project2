@@ -9,6 +9,9 @@ import { AudioController } from './supabase/audio.controller';
 import { SupabaseService } from './supabase/supabase.service';
 import { UploadController } from './supabase/upload.controller';
 import { FileController } from './supabase/file.controller';
+import { PaymentController } from './payment/payment.controller';
+import { PaymentModule } from './payment/payment.module';
+import { PaymentService } from './payment/payment.service';
 
 @Module({
   imports: [
@@ -20,8 +23,9 @@ import { FileController } from './supabase/file.controller';
     AuthModule,
     ProdumusModule,
     OrdersModule,
+    PaymentModule,
   ],
-  controllers: [AudioController, UploadController, FileController],
-  providers: [SupabaseService], 
+  controllers: [AudioController, UploadController, FileController, PaymentController],
+  providers: [SupabaseService, PaymentService], 
 })
 export class AppModule {}

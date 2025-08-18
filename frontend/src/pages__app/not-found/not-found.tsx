@@ -5,18 +5,35 @@ import styles from './not-found.module.scss';
 import { useEffect } from 'react';
 import { useHeader } from '@/entities/stores/useHeader';
 import { useRouter } from 'next/navigation';
+import HeaderMenu from '@/widgets/HeaderMenu/HeaderMenu';
+import { useNotFound } from '@/entities/stores/useNotFound';
 
 const NotFoundPage = () => {
   const headerState = useHeader();
 
   const router = useRouter();
 
+  const { setNotFound }  = useNotFound();
+
   useEffect(() => {
     headerState.setTransparent(true);
+    setNotFound(true);
+
+    function beforeUnload(e: BeforeUnloadEvent) {
+      e.preventDefault();
+      setNotFound(false);
+    }
+
+    window.addEventListener('beforeunload', beforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnload);
+    };
   }, [])
 
   return (
-    <div className={styles['not-found']}>
+    <div id='__isNotFound' className={styles['not-found']}>
+      <HeaderMenu />
       <div className={styles['not-found__bg']}>
         <video
           src="https://rccsowmhkwlvmka0.public.blob.vercel-storage.com/5124584-uhd_3840_2160_25fps.mp4"

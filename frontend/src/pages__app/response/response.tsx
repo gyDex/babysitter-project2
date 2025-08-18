@@ -74,6 +74,9 @@ const ResponsePage = () => {
   const sanitizedEducation = DOMPurify.sanitize(nanny?.nannyProfile?.education || '');
   const sanitizedAbout = DOMPurify.sanitize(nanny?.nannyProfile?.about || '');
 
+
+  console.log(nanny?.userAvatar)
+
   return (
     <>
       <HeaderMenu />

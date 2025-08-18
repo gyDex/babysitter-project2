@@ -13,7 +13,7 @@ import Reviews from "@/widgets/Reviews/Reviews"
 import {SelectModal} from "@/widgets/SelectModal/SelectModal"
 import Solutions from "@/widgets/Solutions/Solutions"
 import { useEffect, useState } from "react";
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation"
 import BabyHero from "@/widgets/baby_hero/baby_hero"
 import BabysittersBenefits from "@/widgets/BabysittersBenefits/BabysittersBenefits"
@@ -52,7 +52,7 @@ export const BabysitterPage = () => {
             <CookieModal />
 
             <div className="min-[1200px]:hidden">
-                <MobileModal title={'Выбор роли'} isOpen={
+                <MobileModal btn title={'Выбор роли'} isOpen={
                   (role === undefined && mobileState.isOpen && mobileState.type === 'role') || 
                   (role === undefined && city !== undefined && mobileState.isOpen)
                 } next={() => 
@@ -90,93 +90,44 @@ export const BabysitterPage = () => {
                     </RadioGroup>
                 </MobileModal>
 
-                <MobileModal title={'Ваш город'} isOpen={
+                <MobileModal btn title={'Ваш город'} isOpen={
                   (city === undefined && mobileState.isOpen && mobileState.type === '') ||
                   (city === undefined && role !== undefined && mobileState.isOpen)
                 } next={() => 
                 {
                   if(selectCity !== '') {
-                    mobileState.setOpen(true, 'role')
-                    setCityCookies('city', selectCity)
+                    if (role !== undefined) {
+                      mobileState.setOpen(false, '')
+                    }
+                    else {
+                      mobileState.setOpen(true, 'role')
+                    }
+                    setCityCookies(selectCity)
                   }
                 }} setOpen={mobileState.setOpen}>
-                  <SelectModal callbackChange={setSelectCity} title='Москва и МО' items={[
-                      {
-                        name: 'Екатеринбург',
-                        id: 'city1',
-                      },
-                      {
-                        name: 'Москва',
-                        id: 'city2',
-                      },
-                      {
-                        name: 'Санкт-Петербург',
-                        id: 'city3',
-                      },
-                      {
-                        name: 'Казань',
-                        id: 'city4',
-                      },
-                      {
-                        name: 'Самара',
-                        id: 'city5',
-                      }
-                    ]}          
+                  <SelectModal callbackChange={setSelectCity} title='Москва и МО' items={cities}          
                     />
-                </MobileModal>
-
-                <MobileModal title={'Ваш город'} isOpen={
-                  (city === undefined && mobileState.isOpen && mobileState.type === '') ||
-                  (city === undefined && role !== undefined && mobileState.isOpen)
-                } next={() => 
-                {
-                  if(selectCity !== '') {
-                    mobileState.setOpen(true, 'role')
-                    setCityCookies('city', selectCity)
-                  }
-                }} setOpen={mobileState.setOpen}>
-                  <SelectModal callbackChange={setSelectCity} title='Москва и МО' items={cities}    
-                    />
-                </MobileModal>
-
-                <MobileModal button_title={'Продолжить бесплатно'} title={'Для отклика необходимо пройти небольшую регистрацию '} isOpen={mobileState.isRegister} next={() => {
-                  
-                  router.push('/auth')}} setOpen={mobileState.setRegister}>
                 </MobileModal>
             </div>
 
             <Popup isOpen={
                   (city === undefined && mobileState.isOpen && mobileState.type === '') ||
                   (city === undefined && role !== undefined && mobileState.isOpen)
-                }next={() => 
+                }
+                next={() => 
                 {
+                  console.log(selectCity)
                   if(selectCity !== '') {
-                    mobileState.setOpen(true, 'role')
-                    setRoleCookies('city', selectCity)
+                    if (role !== undefined) {
+                      mobileState.setOpen(false, '')
+                    }
+                    else {
+                      mobileState.setOpen(true, 'role')
+                    }
+                    setCityCookies(selectCity)
                   }
                 }} setOpen={mobileState.setOpen}  title="Ваш город">
-                <SelectModal callbackChange={setSelectCity} className="!mt-[0px]" title='Москва и МО' items={[
-                  {
-                    name: 'Екатеринбург',
-                    id: 'city1',
-                  },
-                  {
-                    name: 'Москва',
-                    id: 'city2',
-                  },
-                  {
-                    name: 'Санкт-Петербург',
-                    id: 'city3',
-                  },
-                  {
-                    name: 'Казань',
-                    id: 'city4',
-                  },
-                  {
-                    name: 'Самара',
-                    id: 'city5',
-                  }
-                ]}          
+                <SelectModal callbackChange={setSelectCity} className="!mt-[0px]" title='Выбрать' items={cities}          
                 />
             </Popup>
 
@@ -205,11 +156,11 @@ export const BabysitterPage = () => {
                             onChange={() => setSelectedValue('baby')}
                         />
                         <RadioItem
-                            id="PARENT"
+                            id="parent"
                             name="Я родитель, ищу няню"
                             value="Я родитель, ищу няню"
-                            checked={selectedValue === 'PARENT'}
-                            onChange={() => setSelectedValue('PARENT')}
+                            checked={selectedValue === 'parent'}
+                            onChange={() => setSelectedValue('parent')}
                         />
                         </div>
                 </RadioGroup>

@@ -180,6 +180,9 @@ export class UsersService {
     async getNannyByCity(city: string) {
         try {
             console.log('city sik')
+            console.log('city',city)
+
+            console.log(this.prisma.nannyProfile.findMany())
             
             let nanny = await this.prisma.nannyProfile.findMany({
                 where: {

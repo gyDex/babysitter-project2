@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getMe } from "../api/authApi";
 import { useAuth } from "@/entities/stores/useAuth";
 import { setRoleCookies } from "@/features/setRoleCookie";
 import { usePathname, useRouter } from "next/navigation";
+import Cookies from 'js-cookie';
 
 
 type Props = {
@@ -21,6 +22,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const router = useRouter();
 
   const pathName = usePathname();
+
+  const [roleCookie, setRoleCookie] = useState<string | undefined>();
+
+    useEffect(() => {
+      setRoleCookie(Cookies.get('role'))
+    }, [])
 
   useEffect(() => {
     const initMe = async () => {
@@ -58,20 +65,19 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         if (user.parentProfile && pathName === '/') {
           router.replace('/profile-parent/vacancy/')
         }
-
-        
-
-        // else {
-            
-        // }
       } catch (error) {
         console.log(error)
+
+        if ((roleCookie === 'parent' && roleCookie !== undefined) && pathName !== '/auth')  router.replace('/parent')
+          
+        else if ((roleCookie === 'baby' && roleCookie !== undefined) && pathName !== '/auth')  router.replace('/babysitter')
+        
         setAuth(false);
       }
     };
 
     initMe();
-  }, [setAuth, setPhone, setRole, setUser]);
+  }, [setAuth, setPhone, setRole, setUser, roleCookie]);
 
   return <>{children}</>;
 };

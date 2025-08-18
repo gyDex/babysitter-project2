@@ -13,7 +13,7 @@ import api from '@/shared/api';
 const schema = z.object({
   code: z
     .string()
-    .min(1, 'Введите номер телефона')
+    .min(1, 'Введите код')
     .max(6,'Введите корректный код')
 });
 
@@ -25,6 +25,10 @@ const CodeStage = () => {
     const {
         handleSubmit,
         register,
+        formState: {
+            errors
+        },
+        setError
     } = useForm({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -52,6 +56,10 @@ const CodeStage = () => {
 
         } catch (error) {
             console.error('Ошибка при запросе кода:', error);
+
+            setError('code', {
+                message: 'Неправильный код'
+            })
         }
     }
 
@@ -68,10 +76,16 @@ const CodeStage = () => {
             </button>
 
             <form  className={styles['code-stage__bottom']} action="" onSubmit={handleSubmit(onSubmit)}>
-                <input type="text" {...register('code')} placeholder='Введите код' className={styles['code-stage__input']} />
+                <div className='w-full'>
+                    <input type="text" {...register('code')} placeholder='Введите код' className={styles['code-stage__input']} />
+                    {
+                        errors.code && <span className='text-[red] font-[onest] text-[14px]'>{errors?.code.message}</span>
+                    }
+                </div>
 
                 <Button  style={{
                     marginTop: '0px',
+                    height: 'fit-content'
                 }} text='Продолжить' variation='second' type='submit' />
             </form>
         </section>

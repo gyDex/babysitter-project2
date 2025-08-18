@@ -57,8 +57,8 @@ const BabyHero = () => {
             <div className={styles['baby-hero__buttons-wrap']}>
                 <Button style={{
                     paddingInline: '38px',
-                }} text='Зарегистрироваться'  type='button' />
-                <Button onClick={() => router.push('/profile-babysitter/vacancy')} text='Посмотреть вакансии' variation='three' type='button' />
+                }} onClick={() => router.push('/auth')} text='Зарегистрироваться'  type='button' />
+                <Button onClick={() => router.push('/babysitter#reviews')} text='Посмотреть вакансии' variation='three' type='button' />
             </div>
 
             <div className={styles['baby-hero__bottom-inner']}>

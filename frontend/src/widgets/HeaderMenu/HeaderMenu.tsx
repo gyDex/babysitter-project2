@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/entities/stores/useAuth';
 import Cookies from 'js-cookie';
+import { useNotFound } from '@/entities/stores/useNotFound';
 
 const HeaderMenu = () => {
   const header = useHeader()
@@ -42,6 +43,8 @@ const HeaderMenu = () => {
 
   const [city, setCity] = useState<string | undefined>()
 
+  const { isNotFound } = useNotFound();
+
   useEffect(() => {
       setCity(Cookies.get('city'))
   }, [])
@@ -54,7 +57,7 @@ const HeaderMenu = () => {
       <div className={styles['header-menu__container']}>
         <ul className={styles['header-menu__list']}>
           {
-            (pathname === '/parent' || pathname.includes('/profile-babysitter/') || pathname.includes('/about-you/')) &&
+            ((pathname === '/parent' || pathname.includes('/profile-babysitter/') || pathname.includes('/about-you/')) || isNotFound) &&
             <>
                 <li onClick={() => header.setOpenMenu(false)} className={styles['header-menu__item']}>
                   <a href="#about">О нас</a>

@@ -3,7 +3,7 @@
 import styles from './PaymentStage.module.scss'
 import Button from '@/shared/compontents/Button';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/entities/stores/useAuth';
 import { createOrder } from '@/shared/api/paymentApi';
 
@@ -29,41 +29,15 @@ const PaymentStage:React.FC<Props> = ({without_sub}) => {
         }) 
     };
 
+    useEffect(() => {
+        if (link !== undefined && link !== null && link !== '') {
+            router.push(link);
+        }
+    }, [link])
+
     const handleClick = async() => {
         try {
-            console.log(user)
-
-            const handlePay = async () => {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENV}/orders/create`, {
-                    method: 'POST',
-                    body: JSON.stringify({ userId: user.id, amount: 1900 }),
-                    headers: { 'Content-Type': 'application/json' },
-                });
-
-                const data = await res.json();
-
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = data.payment_url;
-
-                ['merchant_id', 'order_id', 'amount', 'signature'].forEach((key) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = data[key];
-                form.appendChild(input);
-                });
-
-                document.body.appendChild(form);
-                form.submit();
-            };
-
-            handlePay();
-
-            // await subscribe();
-
-            console.log('click')
-            // router.push('/profile-parent/vacancy')
+            getPaymentLink();
         } catch (error) {
             console.error('Ошибка при запросе кода:', error);
         }
@@ -125,15 +99,6 @@ const PaymentStage:React.FC<Props> = ({without_sub}) => {
                     Посмотреть базу нянь
                 </button>
             </div>
-
-            <button onClick={getPaymentLink}>Получить ссылку на оплату</button>
-      {link && (
-        <p>
-          <a href={link} target="_blank" rel="noopener noreferrer">
-            Оплатить заказ
-          </a>
-        </p>
-      )}
         </section>
     )
 }

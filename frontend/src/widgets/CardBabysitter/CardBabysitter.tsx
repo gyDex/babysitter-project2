@@ -61,7 +61,7 @@ const CardBabysitter:React.FC<Props> = ({isMessage, isMoreBtn = false, isRespons
                         className={styles['card-babysit__avatar-image']}
                         src={
                             data?.user?.userAvatar && data?.user.userAvatar !== ''
-                            ? data?.user.userAvatar
+                            ? data?.user?.userAvatar
                             : '/images/card-babysit/image.jpg'
                         }
                         alt="heart"

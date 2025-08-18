@@ -33,11 +33,13 @@ type Props = {
     linkEdit?: string | boolean,
     callbackEdit?: () => void;
 
+    callbackRequest?: () => void;
+
     isMessage?: boolean,    
     isDetailParent?: boolean,    
 }
 
-const ResponseFeedback:React.FC<Props> = ({isDetailParent,isViewName, city, link, callbackEdit, date, isMessage, childrens,occupation, charts, IsRes=false, verified = true, isEdit = false,isDetail = false, isRes = true ,person, quote, tasks, name}) => {
+const ResponseFeedback:React.FC<Props> = ({isDetailParent,isViewName, callbackRequest ,city, link, callbackEdit, date, isMessage, childrens,occupation, charts, IsRes=false, verified = true, isEdit = false,isDetail = false, isRes = true ,person, quote, tasks, name}) => {
     const modalState = useMobileState();
 
     const router = useRouter();
@@ -54,7 +56,7 @@ const ResponseFeedback:React.FC<Props> = ({isDetailParent,isViewName, city, link
 
   return (
     <div onClick={() => {
-        if (link && user.roles[0] === 'PARENT') {
+        if (link && user?.roles[0] === 'PARENT') {
             router.push(`/profile-parent/vacancy/${link}`)
         }
         // if (link && user.roles[0] === 'NANNY') {
@@ -183,10 +185,18 @@ const ResponseFeedback:React.FC<Props> = ({isDetailParent,isViewName, city, link
                 </div>
                 
                 {
-                    isRes && verified && <button onClick={async() => {
-                        if (link && user.roles[0] === 'NANNY') {
-                        router.push(`/profile-babysitter/vacancy-detail/${link}`)
-                    }
+                    isRes && verified && <button onClick={async(e) => {
+                        e.preventDefault();
+
+                        if (callbackRequest === undefined || callbackRequest === null) {
+                            if (link && user.roles[0] === 'NANNY') {
+                                router.push(`/profile-babysitter/vacancy-detail/${link}`)
+                            }
+                        }
+
+                        if (callbackRequest) {
+                            callbackRequest();
+                        }
                         // await respond(id as string, message);
                     }} className={styles['response-feedback__bottom-btn']}>
                         Откликнуться

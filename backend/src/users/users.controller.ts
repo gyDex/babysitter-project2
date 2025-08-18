@@ -93,7 +93,6 @@ export class UsersController {
     }
 
     @Get('/nanny/vacancy/city')
-    @UseGuards(JwtAuthGuard)
     async validateNanny(@Req() req: any, @Query('city') city: string) {
         return this.usersServices.getVacancyByCity(city);
     }
